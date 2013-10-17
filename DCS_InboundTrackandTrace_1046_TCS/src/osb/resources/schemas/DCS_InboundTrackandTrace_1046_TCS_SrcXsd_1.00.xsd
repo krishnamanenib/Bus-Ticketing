@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.int.nike.com/shipment/xsd/v2" targetNamespace="http://xmlns.int.nike.com/shipment/xsd/v2" version="2.0">
+	<xs:element name="TrkTraceMstr" type="tns:TrkTraceMstr">
+		<xs:annotation>
+			<xs:documentation>Root element for Shipment_TrackAndTrace_IDM.  IDOC AFS ZX/SHPMNT05.  Project:  Phoenix Remediation  Publishers:  DS400.  Subscribers:  SAP AFS  IR Tables: None  Namespace:  http://xmlns.int.nike.com/shipment/xsd/v1 </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="TrkTraceMstr">
+		<xs:annotation>
+			<xs:documentation>Root element for Shipment_TrackAndTrace_IDM. IDOC AFS ZX/SHPMNT05.  Project:  Phoenix Remediation  Publishers:  DS400.  Subscribers:  SAP AFS  IR Tables: None  Namespace:  http://xmlns.int.nike.com/shipment/xsd/v2 </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TrkTrace" type="tns:TrkTrace" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrkTrace">
+		<xs:annotation>
+			<xs:documentation>SAP Details: IDoc: Shipment. - E1EDT20  Note:   Header  level Track and Trace details.  Includes various document details, ship to details, tracking number, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BOLNbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the Bill of Lading (BOL) or the Master Air Way Bill (MAWB) with which the goods are to be transported. (In Staging)  SAP Details:  Bill of lading  MDR ID:  3100 - Bill Of Lading Or Master Air Way Bill Number </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HAWBCntnrPRONbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique number assigned to an individual Container Number, House Air Way Bill (HAWB), or the Progressive Number (PRO) on a delivery shipment. There can only be one of these per SAP shipment document number, but there can be multiple SAP shipment document numbers with the same Cntr/HAWB/PRO.  SAP Details:  HAWB/Container/PRO Nbr  MDR ID:  2995 - HAWB/Container/PRO Nbr</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShipToCustNbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>R3 generated number assigned to the Ship-to Customer, which is the Customer that receives the shipment. Ship-to can be a Retail location, Customer Distribution Center (DC), one time Ship-to, or Customer third party using a number. Customer: The commonly referred to term for any organization (or person) that buys products from Nike. Nike has many different types of Customer relationships, all of which entail specific methods of handling orders, credit checks, payments, or invoices. (please note   SAP Detail: SAP Detail:  Partner no. (SAP) - PARTNER_ID  MDR ID:  3673 - ShipToCustNbr  Note:  Partner qualifier -  WE</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpgPtPlntIdCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A number that uniquely identifies a facility where inventory is processed and stored. A Plant is normally associated with a single Distribution Center (DC). Products are tracked by Plant Identifier Code when stored as inventory. Multiple plants may be assigned to a single physical location. In these rare cases, Products are segregated by their Plant Identifier Code as if they were in different locations, to support independent processing logic. Examples: 1047 (meaning Northridge) 1051 (meaning Shelby) 1042.  SAP Detail:  Partner ID - PARTNER_ID  MDR ID:  2074 - Plant Identifier Code  Note:  Partner qualifier -  OSP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FwderId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail: SAP Detail:  Partner no. (SAP) - PARTNER_ID  Note:  PARTNER_Q = 'ZN'</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CarrCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Standard Carrier Alpha Code (SCAC) for US/Global carriers; 4 - 5 digit code for carriers with no official SCAC code.  Carrier ID - Carrier Number.  SAP Detail: SAP Detail:  Partner no. (SAP) - PARTNER_ID  Note:  Partner qualifier -  CR </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrckgNbr" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A shipment-specific tracking number designated by the carrier to identify the shipment as reported from the Warehouse Management System. This can be used to check the status of the shipment with the carrier. EX: 445893918414  SAP Details:  External Identification of Delivery Note  MDR ID:  9025 - Warehouse Management Systems Tracking Number </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SAPPONbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DOMS Detail:  Reference number.  Qualifier =  PO .  MDR ID:  2044 - Purchase Order Number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShipRefNbr" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>DOMS Detail:  Ship Reference Number is a digital commerce term.  Qualifier =  SG .</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DestCtryCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A set of alphanumeric characters that uniquely identify a geographic area of land that is internationally recognized as a sovereign state.  SAP Detail:  Country. - COUNTRY1  MDR ID:  2922</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OBPrcsId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Outbound Process Identifier helps on identifying  the business process direction (i.e  inbound or outbound).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrkTraceTxt" type="tns:TrkTraceTxt" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AddrDtl" type="tns:AddrDtl" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ShpmtDt" type="tns:ShpmtDt" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrkTraceTxt">
+		<xs:annotation>
+			<xs:documentation>SAP Detail:  General Text Header - E1TXTH6 and General Text Segment - E1TXTP6.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EvntId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Text ID - TDID  Note:  There will be a variety of events generating free form text so decision was made to keep the element and to name it EvntId. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrkTraceTxt" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Text Line - TDLINE  Note:  Free form text. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddrDtl">
+		<xs:annotation>
+			<xs:documentation>Address details for parties involved with the shipment.  SAP Detail:  Central Address Segment Group, Main Segment - SAP Segment - E1ADRM1/E1ADRM4.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddrFuncCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code to identify the address.  Used primarily for SAP Partner function address details such as Customer, Vendor, Plant, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AddrNm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines available for supplemental Name information on an address, such as a specific individual or department. Used primarily for SAP Partner function address details such as Customer, Vendor, Plant, etc.  There are three lines available for use to fill in this information. Lines 2 and 3 are often blank. Example: TRANS ASIA SHOES CO., LTD Marketing   SAP Detail: NAME1 - Name or address line </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Addr2Nm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines available for supplemental Name information on an address, such as a specific individual or department. Used primarily for SAP Partner function address details such as Customer, Vendor, Plant, etc.  There are three lines available for use to fill in this information. Lines 2 and 3 are often blank. Example: TRANS ASIA SHOES CO., LTD Marketing    SAP Detail: NAME2 - Name or address line  MDR ID: 10429 - Addressee Line N</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Addr3Nm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines available for supplemental Name information on an address, such as a specific individual or department. Used primarily for SAP Partner function address details such as Customer, Vendor, Plant, etc.  There are three lines available for use to fill in this information. Lines 2 and 3 are often blank. Example: TRANS ASIA SHOES CO., LTD Marketing    SAP Detail: NAME3 - Name or address line  MDR ID: 10429 - Addressee Line N</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Addr4Nm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines available for supplemental Name information on an address, such as a specific individual or department. Used primarily for SAP Partner function address details such as Customer, Vendor, Plant, etc.  There are three lines available for use to fill in this information. Lines 3 and 4 are often blank. Example: TRANS ASIA SHOES CO., LTD Marketing  SAP Detail: NAME4 - Name or address line  MDR ID: 10429 - Addressee Line N </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StAddrLin2Desc" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines where the first line indicates the street name and number of a location. Subsequent lines are used for supplemental information such as Suite or Unit number. There are four lines available for use to fill in this information. Lines 3 and 4 are often blank. Example: 502 King Street Royal Bank Plaza 19th Floor South Tower Vinh Cuu Town  SAP Detail:  House number and street. - STREET1  MDR ID:  10220 - Street Address Line N</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StAddrLin3Desc" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines where the first line indicates the street name and number of a location. Subsequent lines are used for supplemental information such as Suite or Unit number. There are four lines available for use to fill in this information. Lines 3 and 4 are often blank. Example: 502 King Street Royal Bank Plaza 19th Floor South Tower Vinh Cuu Town  SAP Detail:  House number and street. - STREET3  MDR ID:  10220 - Street Address Line N</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StAddrLin4Desc" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A series of lines where the first line indicates the street name and number of a location. Subsequent lines are used for supplemental information such as Suite or Unit number. There are four lines available for use to fill in this information. Lines 3 and 4 are often blank. Example: 502 King Street Royal Bank Plaza 19th Floor South Tower Vinh Cuu Town  Example Value:  SAN BERNARDINO DC 855  SAP Detail:  Street 4.  - STR_SUPPL3  MDR detail:  10220 - Street Address Line N   </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PstlCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An official set of alphanumeric characters added to addresses to indicate street and town. The Postal Code is used to expedite mail delivery by aiding the sorting of mail.  SAP Detail: Postal Code. - POSTL_COD1  MDR ID:  2020</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CityNm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The text label associated with City Code.  Example:  Portland  SAP Detail:  Town or city. - CITY1  MDR ID:  9290  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProvStCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique set of letters represents a state or province within a country. Examples: OR (meaning Oregon) QLD (meaning Queensland Australia).  SAP Detail:  State or region.  REGION  MDR ID:  6366 - Province/State Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CtryCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A set of alphanumeric characters that uniquely identify a geographic area of land that is internationally recognized as a sovereign state.  SAP Detail:  Country. - COUNTRY1  MDR ID:  2922</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TeleNbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customer's Telephone number, as it must be dialed from within the country  Example Value: 800-671-6453  SAP Detail:  Telephone no.: dialling code + number.  - TELEPHONE  MDR detail: 10226 </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TeleExtnsnNbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A sequence of decimal digits (0-9), used for identifying a destination telephone line in a telephone network.  Example Value: 2733  SAP Detail: TELEPHONE2 -  Telephone no.: Extension  MDR ID: 10226 </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FaxNbr" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Telephone Number of a business partner's Fax machine for the communication of a printed page between remote locations. Fax machines scan a paper form and transmit a coded image over the telephone system. The receiving machine prints a copy (a facsimile) of the original.  Example Value: 800-671-6453  SAP Detail: TELEFAX - Fax number: dialling code+number.   MDR detail: 10225 </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EMailAddrNm" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies a destination where digital messages are delivered. An email address consists of two parts, a username and a domain (or host) name with an at symbol ('@') separating them. The domain specifies which server the email should be delivered to and the username tells the server at that domain which mailbox to deposit the email into.  Example Value:  john.doe@abc.com  SAP Detail: E_MAIL - E-Mail Address  MDR ID: 10224  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShpmtDt">
+		<xs:annotation>
+			<xs:documentation>Event details with date/time pairs for a specific event.  Date/time pairs represent activity to the shipment while still in transit between a shipping point to it's final destination.  SAP Detail:  IDOC: Date (Shipment) - E1EDT10</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EvntTypeCd" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A code that denotes the type of event sent by the carrier.  SAP Detail:  Event Type - EVENT  Note:  STATUS-CODE.  If  D1   =  AAC  Else  EDD .</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RsnCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DOMS Detail:  Shipment Status, or Appointment Reason Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngEndDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:   Date of end of planning - IEDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngEndTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Scheduling End Time - IEDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecShpmtStrtDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Execution Shipment Start Date - IEDD  Note: CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecShpmtStrtTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Execution Shipment Start Time - IEDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngShpmtStrtDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Planning Shipment Start Date - NTEND  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngShpmtStrtTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Planning Shipment Start Time - NTENZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecNextChckDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual date of next checkpoint for the shipment.  A shipment can have multiple stops or ports.  Example. China to Los Angeles to destination.  Stops for consolidation or deconsolidation.  Stops for regulations within countries, specific to each country.  Example:  Import declarations are a next stop.  SAP Detail:  Execution Next Check Date - ISDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecNextChckTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual time of next checkpoint for the shipment.  A shipment can have multiple stops or ports.  Example. China to Los Angeles to destination.  Stops for consolidation or deconsolidation.  Stops for regulations within countries, specific to each country.  Example:  Import declarations are a next stop.  SAP Detail:  Execution Next Check Time - ISDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngNextChckDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned date of next checkpoint for the shipment.  A shipment can have multiple stops or ports.  Example. China to Los Angeles to destination.  Stops for consolidation or deconsolidation.  Stops for regulations within countries, specific to each country.  Example:  Import declarations are a next stop.  SAP Detail:  Planning Next Check Date - NTANF  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngNextChckTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned time of next checkpoint for the shipment.  A shipment can have multiple stops or ports.  Example. China to Los Angeles to destination.  Stops for consolidation or deconsolidation.  Stops for regulations within countries, specific to each country.  Example:  Import declarations are a next stop.  SAP Detail:  Planning Next Check Time - NTANZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecDischrgDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date the shipment is planned to leave customs for entry within a country.  SAP Detail:  Execution Discharge Date - IEDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecDischrgTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Time the shipment is planned to leave customs for entry within a country.  SAP Detail:  Execution Discharge Time - IEDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngDischrgDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Planning Discharge Date - NTEND  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngDischrgTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Planning Discharge Time - NTENZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecCstmsClrncRelDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual customs clearance date.  Provided by the carrier.    SAP Detail:  Execution Cust Clear/Rel Date - IEDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecCstmsClrncRelTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual customs clearance time.  Provided by the carrier.  SAP Detail:  Execution Cust Clear/Rel Time - IEDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngCstmsClrncRelDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned customs clearance date.  Provided by the carrier.  SAP Detail:  Planning Cust Clear/Rel Date - NTEND  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngCstmsClrncRelTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned customs clearance time.  Provided by the carrier.  SAP Detail:  Planning Cust Clear/Rel Time - NTENZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecShpmtEndDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual shipment end date, shipment is completed, delivery is at the customer.  Provided by carrier.  SAP Detail:  Execution Shipment End Date - IEDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecShpmtEndTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual shipment end time shipment is completed, delivery is at the customer.  Provided by carrier.  SAP Detail:  Execution Shipment End Time - IEDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngShpmtEndDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date the shipment is planned to be completed by. Provided by carrier.    SAP Detail:  Planning Shipment End Date - NTEND  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngShpmtEndTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Time the shipment is planned to be completed by. Provided by carrier.  SAP Detail:  Planning Shipment End Time- NTENz  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecNtfySchedBkgDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual date the shipment was notified, scheduled or booked.Provided by carrier.  SAP Detail:  Execution Ntfy/Schd/Bking date - ISDD  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExecNtfySchedBkgTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Actual time the shipment was notified, scheduled or booked.Provided by carrier.  SAP Detail:  Execution Ntfy/Schd/Bking time - ISDZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngNtfySchedBkgDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned date the shipment was notified, scheduled or booked.Provided by carrier.  SAP Detail:  Planning Ntfy/Schd/Bking date - NTANF  Note:  CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlngNtfySchedBkgTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Planned time the shipment was notified, scheduled or booked.Provided by carrier.  SAP Detail:  Planning Ntfy/Schd/Bking time- NTANZ  Note:  HHMMSS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActlFnshDt" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date of the event.  SAP Detail:  Actual finish date - IEDD  Note:  CCYYMMDD </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActlFnshTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Time of the event.    SAP Detail:  Actual finish time- EIDZ  Note:  HHMMSS </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpctdDlvryDt" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DOMS Detail:  Scheduled delivery date.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpctdDlvryTm" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DOMS Detail:  Scheduled delivery time.    Note:  Currently not used by DOMS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BegTmznCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code that represents one of the 24 regions or divisions of the globe approximately coinciding with meridians at successive hours from the observatory at Greenwich, England. Example: Code Description PST Pacific Standard Time.  SAP Detail:  Time Zone - TZONE_BEG  MDR ID:  6437 - Time Zone Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndTmznCd" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code that represents one of the 24 regions or divisions of the globe approximately coinciding with meridians at successive hours from the observatory at Greenwich, England. Example: Code Description PST Pacific Standard Time.  SAP Detail:  Time Zone - TZONE_END  MDR ID:  6437 - Time Zone Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpmtEvntTxt" type="tns:ShpmtEvntTxt" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ShpmtEvntTxt">
+		<xs:annotation>
+			<xs:documentation>SAP Detail:  General Text Header - E1TXTH7 and General Text Segment - E1TXP7.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ShpmtDtTxt" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAP Detail:  Text Line - TDLINE </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

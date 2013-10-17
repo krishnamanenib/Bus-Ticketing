@@ -1,0 +1,28 @@
+<xs:schema attributeFormDefault='unqualified' elementFormDefault='qualified' targetNamespace='urn:com:nike:esb' xmlns:tns='urn:com:nike:esb' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+ <xs:annotation>
+  <xs:documentation>a generic response to a the posting of inbound service from outside world</xs:documentation>
+ </xs:annotation>
+ <xs:element name='DCSResponse' type='tns:PACWSResponseType'/>
+ <xs:complexType name='PACWSResponseType'>
+  <xs:attribute name='ServiceName' type='xs:string' use='required'>
+   <xs:annotation>
+    <xs:documentation>This attribute specifies the service name to which this respons is being generated.</xs:documentation>
+   </xs:annotation>
+  </xs:attribute>
+  <xs:attribute name='DocumentTime' type='xs:dateTime' use='required'>
+   <xs:annotation>
+    <xs:documentation>This attribute specifies timestamp when the response was generated.</xs:documentation>
+   </xs:annotation>
+  </xs:attribute>
+  <xs:attribute name='MessageId' type='xs:string' use='optional'>
+   <xs:annotation>
+    <xs:documentation>This optional attribute specifies the original message id for which this respons is being generated.</xs:documentation>
+   </xs:annotation>
+  </xs:attribute>
+  <xs:attribute name='Status' type='xs:string' use='optional'>
+   <xs:annotation>
+    <xs:documentation>This optional attribute is to specify any more information about response if any e.g. OK / SUCESS etc</xs:documentation>
+   </xs:annotation>
+  </xs:attribute>
+ </xs:complexType>
+</xs:schema>

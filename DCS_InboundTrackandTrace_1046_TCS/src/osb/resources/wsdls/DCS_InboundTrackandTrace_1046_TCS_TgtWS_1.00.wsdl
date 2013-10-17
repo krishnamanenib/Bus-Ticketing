@@ -1,0 +1,49 @@
+<wsdl:definitions targetNamespace='http://soa.jboss.org/Carriers' xmlns:esbns1='http://xmlns.int.nike.com/shipment/xsd/v2' xmlns:esbns2='urn:com:nike:esb' xmlns:esbns3='urn:com:nike:esb' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://soa.jboss.org/Carriers' xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'>
+ <wsdl:types>
+  <xs:schema targetNamespace='http://xmlns.int.nike.com/shipment/xsd/v2' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:include schemaLocation='../schemas/DCS_InboundTrackandTrace_1046_TCS_TrgReqXsd_1.00.xsd'/>
+  </xs:schema>
+  <xs:schema targetNamespace='urn:com:nike:esb' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:include schemaLocation='../schemas/DCS_InboundTrackandTrace_1046_TCS_TrgResXsd_1.00.xsd'/>
+  </xs:schema>
+  <xs:schema targetNamespace='urn:com:nike:esb' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:include schemaLocation='../schemas/DCS_InboundTrackandTrace_1046_TCS_TrgFauXsd_1.00.xsd'/>
+  </xs:schema>
+ </wsdl:types>
+ <wsdl:message name='NIKEiDShipmentTrackingServiceRes'>
+  <wsdl:part element='esbns3:DCSResponse' name='out'></wsdl:part>
+ </wsdl:message>
+ <wsdl:message name='NIKEiDShipmentTrackingServiceFault1'>
+  <wsdl:part element='esbns3:DCSFault' name='fault1'></wsdl:part>
+ </wsdl:message>
+ <wsdl:message name='NIKEiDShipmentTrackingServiceReq'>
+  <wsdl:part element='esbns1:TrkTraceMstr' name='in'></wsdl:part>
+ </wsdl:message>
+ <wsdl:portType name='NIKEiDShipmentTrackingServicePortType'>
+  <wsdl:operation name='NIKEiDShipmentTrackingServiceOp'>
+   <wsdl:input message='tns:NIKEiDShipmentTrackingServiceReq' name='NIKEiDShipmentTrackingServiceReq'></wsdl:input>
+   <wsdl:output message='tns:NIKEiDShipmentTrackingServiceRes' name='NIKEiDShipmentTrackingServiceRes'></wsdl:output>
+   <wsdl:fault message='tns:NIKEiDShipmentTrackingServiceFault1' name='fault1'></wsdl:fault>
+  </wsdl:operation>
+ </wsdl:portType>
+ <wsdl:binding name='NIKEiDShipmentTrackingServiceBinding' type='tns:NIKEiDShipmentTrackingServicePortType'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <wsdl:operation name='NIKEiDShipmentTrackingServiceOp'>
+   <soap:operation soapAction='http://soa.jboss.org/Carriers/NIKEiDShipmentTrackingServiceOp'/>
+   <wsdl:input name='NIKEiDShipmentTrackingServiceReq'>
+    <soap:body use='literal'/>
+   </wsdl:input>
+   <wsdl:output name='NIKEiDShipmentTrackingServiceRes'>
+    <soap:body use='literal'/>
+   </wsdl:output>
+   <wsdl:fault name='fault1'>
+    <soap:fault name='fault1' use='literal'/>
+   </wsdl:fault>
+  </wsdl:operation>
+ </wsdl:binding>
+ <wsdl:service name='NIKEiDShipmentTrackingServiceService'>
+  <wsdl:port binding='tns:NIKEiDShipmentTrackingServiceBinding' name='NIKEiDShipmentTrackingServicePortType'>
+   <soap:address location='!!osb.dcs.svcs!!/carriers/ebws/Carriers/NIKEiDShipmentTrackingService'/>
+  </wsdl:port>
+ </wsdl:service>
+</wsdl:definitions>

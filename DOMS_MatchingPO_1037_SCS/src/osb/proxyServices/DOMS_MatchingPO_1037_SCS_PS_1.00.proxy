@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isTracingEnabled="false" isAutoPublish="false">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con6:SoapBindingType" xmlns:con6="http://www.bea.com/wli/sb/services/bindings/config">
+      <con6:wsdl ref="DOMS_MatchingPO_1037_SCS/src/osb/resources/wsdls/DOMS_MatchingPO_1037_SCS_XsdSrc_1.00"/>
+      <con6:port>
+        <con6:name>MatchingPORequestPortType</con6:name>
+        <con6:namespace>urn:com:nike:orders:1.0</con6:namespace>
+      </con6:port>
+      <con6:selector type="SOAP body"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+    <ser:throttling enabled="false">
+      <ser:capacity>0</ser:capacity>
+      <ser:maxQueueLength>0</ser:maxQueueLength>
+      <ser:timeToLive>0</ser:timeToLive>
+    </ser:throttling>
+    <ser:messageTracing enabled="false">
+      <ser:detailsLevel>Terse</ser:detailsLevel>
+      <ser:maxSize>8192</ser:maxSize>
+    </ser:messageTracing>
+    <ser:transactions isRequired="false" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/deliver/order/MatchingPORequest</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+      <http:dispatch-policy>WorkManager-2-Thread</http:dispatch-policy>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-631412819831401608-27123e54.136dec9e4ac.-77f8">
+    <con:pipeline type="response" name="PipelinePairNode_response"/>
+    <con:pipeline type="error" name="_onErrorHandler-7144210592640023934--23b4b73e.1389d6ae990.-7e88">
+      <con:stage name="stage_getServerName_ErrorHandler">
+        <con:context xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+          <con2:userNsDecl namespace="http://www.nike.com/StaticVariables" prefix="sour"/>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+        </con:context>
+        <con:actions xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+          <con1:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-7d91</con2:id>
+            <con1:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_LogSchema_2.00"/>
+                <con2:param name="serviceID">
+                  <con2:path>$configVariables/var:ServiceID/text()</con2:path>
+                </con2:param>
+                <con2:param name="messageText">
+                  <con2:path>fn:concat('Error in getting the server Name:
+ Error code: ',data($fault/ctx:errorCode),' Reason: ',data($fault/ctx:reason))</con2:path>
+                </con2:param>
+                <con2:param name="serverName">
+                  <con2:path>$configVariables/var:ServerName/text()</con2:path>
+                </con2:param>
+                <con2:param name="staticVariable">
+                  <con2:path>$staticVariable</con2:path>
+                </con2:param>
+                <con2:param name="stackTraceText">
+                  <con2:path>'NA'</con2:path>
+                </con2:param>
+                <con2:param name="logLevelCode">
+                  <con2:path>'Error'</con2:path>
+                </con2:param>
+                <con2:param name="serviceName">
+                  <con2:path>$configVariables/var:ServiceName/text()</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con1:expr>
+          </con1:replace>
+          <con7:route xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/pipeline/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con7="http://www.bea.com/wli/sb/stages/publish/config">
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-7e17</con2:id>
+            <con7:service ref="CommonServiceInterfaces/src/osb/proxyServices/LogClientFilter" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con7:outboundTransform/>
+          </con7:route>
+          <con2:resume xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config">
+            <con2:comment>Resuming the Flow as this Stage Error does not affect the data flow</con2:comment>
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-7e16</con2:id>
+          </con2:resume>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="request" name="PipelinePairNode_request">
+      <con:stage name="stage_LoadConfiguration">
+        <con:context>
+          <con2:userNsDecl namespace="http://xmlns.oracle.com/pcbpel/adapter/db/SmaartBlankRelationshipPubDistinctMaterial" prefix="sma"/>
+          <con2:userNsDecl namespace="http://www.nike.com/StaticVariables" prefix="sour"/>
+          <con2:userNsDecl namespace="http://www.nike.com/ServiceConfig" prefix="nke"/>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com" prefix="xn"/>
+          <con2:varNsDecl prefix="def" namespace="http://nike.com/definitions"/>
+          <con2:varNsDecl namespace="urn:com:nike:orders" prefix="urn"/>
+        </con:context>
+        <con:actions>
+          <con4:assign varName="payload">
+            <con2:comment>InboundMessage</con2:comment>
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-7f44</con2:id>
+            <con4:expr>
+              <con2:xqueryText>$body/*[1]</con2:xqueryText>
+            </con4:expr>
+          </con4:assign>
+          <con6:assign varName="configVariables" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-7f14</con2:id>
+            <con6:expr>
+              <con2:xqueryText><![CDATA[let $proxyService := fn:tokenize($inbound/@name,'\$')[last()]
+return
+<var:Variables xmlns:var="http://www.xmlns.nike.com/variables">
+	(: Hardcoded Properties :)
+	<var:PlatformName>OSB</var:PlatformName>
+    <var:SendingApplicationText>{'DOM'}</var:SendingApplicationText> 
+    <var:TargetAppText>{'SAP'} </var:TargetAppText>  
+    <var:linkId/>
+    <var:businessKeyName>ShippingGroupId|StoreNumber</var:businessKeyName>
+	(: Derived Properties :)
+	<var:ServiceName>{$proxyService}</var:ServiceName>
+	<var:ServiceID>{fn:replace($proxyService,'.*_([0-9]+)_.*','$1')}</var:ServiceID>	
+	<var:ServerName>{'Default Server Name'}</var:ServerName>
+	<var:DeliveryCount>{'1'}</var:DeliveryCount>
+	<var:ErrorType>Transient</var:ErrorType>	
+	(: Source Msg Data :)
+	(: updated as part of #71777:)
+	<var:businessKeyValue>{concat(data($payload/ShippingGroupId),'|',data($payload/StoreNumber))}</var:businessKeyValue>
+	<var:SenderText>{''}</var:SenderText>	
+	<var:SourceSystem>{'DOM'}</var:SourceSystem>
+	<var:SourceMsgID>{''}</var:SourceMsgID>
+	<var:PaymentNbr>{''}</var:PaymentNbr>
+	<var:VendorNbr>{''}</var:VendorNbr>
+</var:Variables>]]></con2:xqueryText>
+            </con6:expr>
+          </con6:assign>
+          <con4:assign varName="staticVariable">
+            <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-772d</con2:id>
+            <con4:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_StaticVariable_2.00"/>
+                <con2:param name="targetApplicationText">
+                  <con2:path>data($configVariables/var:TargetAppText)</con2:path>
+                </con2:param>
+                <con2:param name="businessKeyName">
+                  <con2:path>data($configVariables/var:businessKeyName)</con2:path>
+                </con2:param>
+                <con2:param name="platformName">
+                  <con2:path>data($configVariables/var:PlatformName)</con2:path>
+                </con2:param>
+                <con2:param name="trackID">
+                  <con2:path>fn-bea:uuid()</con2:path>
+                </con2:param>
+                <con2:param name="fileName">
+                  <con2:path>'NA'</con2:path>
+                </con2:param>
+                <con2:param name="senderText">
+                  <con2:path>data($configVariables/var:SenderText)</con2:path>
+                </con2:param>
+                <con2:param name="linkID">
+                  <con2:path>data($configVariables/var:linkId)</con2:path>
+                </con2:param>
+                <con2:param name="sendingApplicationText">
+                  <con2:path>data($configVariables/var:SendingApplicationText)</con2:path>
+                </con2:param>
+                <con2:param name="businessKeyText">
+                  <con2:path>data($configVariables/var:businessKeyValue)</con2:path>
+                </con2:param>
+                <con2:param name="serviceName">
+                  <con2:path>data($configVariables/var:ServiceName)</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con4:expr>
+          </con4:assign>
+        </con:actions>
+      </con:stage>
+      <con:stage name="stage_getServerName" errorHandler="_onErrorHandler-7144210592640023934--23b4b73e.1389d6ae990.-7e88">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+          <con2:varNsDecl prefix="xn" namespace="http://www.xmlns.nike.com"/>
+          <con2:varNsDecl prefix="def" namespace="http://nike.com/GlobalBroker/GBC/definitions"/>
+        </con:context>
+        <con:actions>
+          <con4:javaCallout varName="serverName">
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-7ec2</con2:id>
+            <con4:archive ref="CommonServiceInterfaces/src/osb/resources/jars/JavaCall_ServerName"/>
+            <con4:className>JavaObj</con4:className>
+            <con4:method>public static java.lang.String get_ServerName()</con4:method>
+            <con4:return-param-as-ref>false</con4:return-param-as-ref>
+          </con4:javaCallout>
+          <con1:replace varName="configVariables" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-7dca</con2:id>
+            <con1:location>
+              <con2:xpathText>./var:ServerName</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText>$serverName</con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+        </con:actions>
+      </con:stage>
+      <con:stage name="stage_StartLog">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.nike.com/StaticVariables" prefix="sour"/>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+        </con:context>
+        <con:actions>
+          <con4:route xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:comment>Invoke the Log client filter proxy service over 'local' transport</con2:comment>
+            <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-73d0</con2:id>
+            <con4:service ref="CommonServiceInterfaces/src/osb/proxyServices/LogClientFilter" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:outboundTransform>
+              <con1:replace varName="body" contents-only="true">
+                <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-73cf</con2:id>
+                <con1:expr>
+                  <con2:xqueryTransform>
+                    <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_LogSchema_2.00"/>
+                    <con2:param name="serviceID">
+                      <con2:path>$configVariables/var:ServiceID/text()</con2:path>
+                    </con2:param>
+                    <con2:param name="messageText">
+                      <con2:path>fn:concat('Service ', $configVariables/var:ServiceName/text() , ' invoked for ', $configVariables/var:DeliveryCount/text(), ' time')</con2:path>
+                    </con2:param>
+                    <con2:param name="serverName">
+                      <con2:path>$configVariables/var:ServerName/text()</con2:path>
+                    </con2:param>
+                    <con2:param name="staticVariable">
+                      <con2:path>$staticVariable</con2:path>
+                    </con2:param>
+                    <con2:param name="stackTraceText">
+                      <con2:path>'NA'</con2:path>
+                    </con2:param>
+                    <con2:param name="logLevelCode">
+                      <con2:path>'Info'</con2:path>
+                    </con2:param>
+                    <con2:param name="serviceName">
+                      <con2:path>$configVariables/var:ServiceName/text()</con2:path>
+                    </con2:param>
+                  </con2:xqueryTransform>
+                </con1:expr>
+              </con1:replace>
+            </con4:outboundTransform>
+          </con4:route>
+        </con:actions>
+      </con:stage>
+      <con:stage name="stage_Audit" errorHandler="_onErrorHandler-2802852073646548453--4abcb97.13b4fc9fba3.-7bbc">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.example.org/Source" prefix="sour"/>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+        </con:context>
+        <con:actions>
+          <con6:route xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config">
+            <con2:id>_ActionId-2802852073646548453--4abcb97.13b4fc9fba3.-7c61</con2:id>
+            <con6:service ref="CommonServiceInterfaces/src/osb/businessServices/AuditMessage_Pub_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con6:outboundTransform>
+              <con4:replace varName="body" contents-only="true">
+                <con2:id>_ActionId-2802852073646548453--4abcb97.13b4fc9fba3.-7c60</con2:id>
+                <con4:expr>
+                  <con2:xqueryTransform>
+                    <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_AuditSchema_2.00"/>
+                    <con2:param name="serviceID">
+                      <con2:path>$configVariables/var:ServiceID/text()</con2:path>
+                    </con2:param>
+                    <con2:param name="serverName">
+                      <con2:path>$configVariables/var:ServerName/text()</con2:path>
+                    </con2:param>
+                    <con2:param name="staticVariable">
+                      <con2:path>$staticVariable</con2:path>
+                    </con2:param>
+                    <con2:param name="eventTypeCode">
+                      <con2:path>'Received'</con2:path>
+                    </con2:param>
+                    <con2:param name="errorCode">
+                      <con2:path>'NA'</con2:path>
+                    </con2:param>
+                    <con2:param name="serviceName">
+                      <con2:path>$configVariables/var:ServiceName/text()</con2:path>
+                    </con2:param>
+                  </con2:xqueryTransform>
+                </con4:expr>
+              </con4:replace>
+              <con4:routing-options xmlns:con7="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con8="http://www.bea.com/wli/sb/stages/publish/config">
+                <con2:id>_ActionId-2802852073646548453--4abcb97.13b4fc9fba3.-7c5f</con2:id>
+                <con4:qualityOfService>exactly-once</con4:qualityOfService>
+                <con4:retryInterval>300</con4:retryInterval>
+                <con4:retryCount>5</con4:retryCount>
+              </con4:routing-options>
+            </con6:outboundTransform>
+          </con6:route>
+        </con:actions>
+      </con:stage>
+      <con:stage name="stage_Validate" errorHandler="_onErrorHandler-3052683121689521116-771d233e.13b2b9c0e5d.-7c95">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.example.org/Source" prefix="sour"/>
+        </con:context>
+        <con:actions>
+          <con4:validate>
+            <con2:id>_ActionId-3052683121689521116-771d233e.13b2b9c0e5d.-7c99</con2:id>
+            <con4:schema ref="DOMS_MatchingPO_1037_SCS/src/osb/resources/schemas/DOMS_MatchingPO_1037_SCS_XsdSrc_1.00"/>
+            <con4:schemaElement xmlns:v1="http://www.xmlns.nike.com/enterprise/xsd/factScanCustom/v1" xmlns:urn="urn:com:nike:orders">urn:POCreateOrder</con4:schemaElement>
+            <con4:varName>payload</con4:varName>
+          </con4:validate>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-1051468299107206180--dbf2a8e.138bc984c03.-7a35">
+      <con:stage name="stage_RoutingError">
+        <con:context/>
+        <con:actions>
+          <con1:assign varName="errorMessage" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config">
+            <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7ee5</con2:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">let $errorDetails := ( 
+if (exists( $fault/ctx:details )) then 
+concat (',Fault Details :',fn-bea:serialize($fault/ctx:details))
+else ()
+) return 
+concat ('Transient Error Occurred ,Fault Reason :' , data($fault/ctx:reason),$errorDetails)</con6:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-631412819831401608-27123e54.136dec9e4ac.-77f8">
+      <con:stage name="service_ErrorHandler">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.nike.com/StaticVariables" prefix="sour"/>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+          <con2:userNsDecl namespace="http://www.nike.com/ServiceConfig" prefix="nke"/>
+        </con:context>
+        <con:actions>
+          <con4:ifThenElse>
+            <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7e2c</con2:id>
+            <con4:case>
+              <con4:condition>
+                <con2:xqueryText>fn:string-length($errorMessage)=0</con2:xqueryText>
+              </con4:condition>
+              <con4:actions>
+                <con4:assign varName="errorMessage">
+                  <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7e2b</con2:id>
+                  <con4:expr>
+                    <con2:xqueryText>fn:concat('Process completion interrupted due to an exception. Reason: ',$fault/ctx:reason)</con2:xqueryText>
+                  </con4:expr>
+                </con4:assign>
+              </con4:actions>
+            </con4:case>
+          </con4:ifThenElse>
+          <con7:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con8="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con7="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7e2a</con2:id>
+            <con7:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_ErrorSchema_2.00"/>
+                <con2:param name="inbound">
+                  <con2:path>$inbound</con2:path>
+                </con2:param>
+                <con2:param name="serviceID">
+                  <con2:path>$configVariables/var:ServiceID/text()</con2:path>
+                </con2:param>
+                <con2:param name="errTypeCode">
+                  <con2:path>$configVariables/var:ErrorType/text()</con2:path>
+                </con2:param>
+                <con2:param name="stageName">
+                  <con2:path>if (data($fault/ctx:location/ctx:stage)!='') then 
+data($fault/ctx:location/ctx:stage)
+else 
+data ($fault/ctx:location/ctx:node)</con2:path>
+                </con2:param>
+                <con2:param name="serverName">
+                  <con2:path>$configVariables/var:ServerName/text()</con2:path>
+                </con2:param>
+                <con2:param name="messageText">
+                  <con2:path>$errorMessage</con2:path>
+                </con2:param>
+                <con2:param name="staticVariable">
+                  <con2:path>$staticVariable</con2:path>
+                </con2:param>
+                <con2:param name="stackTraceText">
+                  <con2:path>concat('',data($fault/ctx:details))</con2:path>
+                </con2:param>
+                <con2:param name="payLoadText">
+                  <con2:path>fn-bea:serialize($payload)</con2:path>
+                </con2:param>
+                <con2:param name="errCode">
+                  <con2:path>data($fault/ctx:errorCode)</con2:path>
+                </con2:param>
+                <con2:param name="serviceName">
+                  <con2:path>$configVariables/var:ServiceName/text()</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con7:expr>
+          </con7:replace>
+          <con7:route xmlns:con7="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con6="http://www.bea.com/wli/sb/pipeline/config">
+            <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7e29</con2:id>
+            <con7:service ref="CommonServiceInterfaces/src/osb/proxyServices/ErrorHandlerClient_PS_1.00" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con7:outboundTransform>
+              <con1:routing-options xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con2:id>_ActionId-3574585116392591001-4d0e0447.1396c763121.-7e28</con2:id>
+                <con1:qualityOfService>exactly-once</con1:qualityOfService>
+              </con1:routing-options>
+            </con7:outboundTransform>
+          </con7:route>
+        </con:actions>
+      </con:stage>
+      <con:stage name="responsFailure">
+        <con:context>
+          <con2:userNsDecl namespace="http://nike.com/webservice/soapfault" prefix="resp"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com" prefix="xn"/>
+          <con2:varNsDecl prefix="inv" namespace="http://www.example.org/Invoice_Enterprise_CCA_810_Pub_IDM_BS.wsdl/"/>
+          <con2:varNsDecl prefix="mes" namespace="http://www.Nike.links/Customs/messages"/>
+          <con2:varNsDecl namespace="urn:com:nike:orders" prefix="urn"/>
+        </con:context>
+        <con:actions>
+          <con4:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-77da</con2:id>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<inp1:MatchingPOFault xmlns:inp1="urn:com:nike:orders">
+    	<StatusCode>001</StatusCode>
+		<ShippingGroupId>{data($payload/ShippingGroupId)}</ShippingGroupId>
+		<StoreNumber>{data($payload/StoreNumber)}</StoreNumber>
+    	<SchemaValidationStatus>Failed Validation</SchemaValidationStatus>
+    	<StatusTimestamp>{current-dateTime()}</StatusTimestamp>
+    	<FaultDetails>{$fault/*}</FaultDetails>
+</inp1:MatchingPOFault>]]></con2:xqueryText>
+            </con4:expr>
+          </con4:replace>
+          <con2:reply isError="false">
+            <con2:id>_ActionId-7144210592640023934--23b4b73e.1389d6ae990.-77d9</con2:id>
+          </con2:reply>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-3052683121689521116-771d233e.13b2b9c0e5d.-7c95">
+      <con:stage name="stage_Validate_ErrorHandler">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+        </con:context>
+        <con:actions>
+          <con1:replace varName="configVariables" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-3052683121689521116-771d233e.13b2b9c0e5d.-7c24</con2:id>
+            <con1:location>
+              <con2:xpathText>./var:ErrorType</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText>'Permanent'</con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con1:assign varName="errorMessage" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:id>_ActionId-3052683121689521116-771d233e.13b2b9c0e5d.-7c23</con2:id>
+            <con1:expr>
+              <con2:xqueryText>fn:concat('Validation Error. Error Message: ', $fault/ctx:reason)</con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-2802852073646548453--4abcb97.13b4fc9fba3.-7bbc">
+      <con:stage name="stage_Audit_ErrorHandler">
+        <con:context/>
+        <con:actions>
+          <con2:resume>
+            <con2:comment>Resuming the Flow as this Stage Error does not affect the data flow</con2:comment>
+            <con2:id>_ActionId-2802852073646548453--4abcb97.13b4fc9fba3.-7b4d</con2:id>
+          </con2:resume>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow>
+      <con:pipeline-node name="PipelinePairNode">
+        <con:request>PipelinePairNode_request</con:request>
+        <con:response>PipelinePairNode_response</con:response>
+      </con:pipeline-node>
+      <con:route-node name="routeNode_RoutingToTargetJms" error-handler="_onErrorHandler-1051468299107206180--dbf2a8e.138bc984c03.-7a35">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.xmlns.nike.com/variables" prefix="var"/>
+          <con2:varNsDecl namespace="urn:com:nike:orders" prefix="urn"/>
+        </con:context>
+        <con:actions>
+          <con5:route>
+            <con2:id>_ActionId-1051468299107206180--dbf2a8e.138bc984c03.-7eee</con2:id>
+            <con5:service ref="DOMS_MatchingPO_1037_SCS/src/osb/businessServices/DOMS_MatchingPO_1037_SCS_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con5:outboundTransform>
+              <con4:routing-options>
+                <con2:id>_ActionId-1051468299107206180--dbf2a8e.138bc984c03.-7e61</con2:id>
+                <con4:qualityOfService>exactly-once</con4:qualityOfService>
+              </con4:routing-options>
+              <con4:transport-headers>
+                <con2:id>_ActionId-1051468299107206180--dbf2a8e.138bc984c03.-7e28</con2:id>
+                <con4:header-set>outbound-request</con4:header-set>
+                <con4:header name="STATICVARIABLE" value="expression">
+                  <con2:xqueryText>$staticVariable</con2:xqueryText>
+                </con4:header>
+              </con4:transport-headers>
+            </con5:outboundTransform>
+            <con5:responseTransform>
+              <con5:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con5="http://www.bea.com/wli/sb/stages/transform/config">
+                <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-73cd</con2:id>
+                <con5:expr>
+                  <con2:xqueryText><![CDATA[<inp1:MatchingPOResponse xmlns:inp1="urn:com:nike:orders">
+	<StatusCode>000</StatusCode>
+	<ShippingGroupId>{data($payload/ShippingGroupId)}</ShippingGroupId>
+	<StoreNumber>{data($payload/StoreNumber)}</StoreNumber>
+	<SchemaValidationStatus>Validated</SchemaValidationStatus>
+	<StatusTimeStamp>{fn:current-dateTime()}</StatusTimeStamp>
+	<ResponseMsg>{fn:concat('Request for ShippingGroupId :',data($payload/ShippingGroupId),'and StoreNumber :',data($payload/StoreNumber),' received successfully and format validated.')}</ResponseMsg>
+</inp1:MatchingPOResponse>]]></con2:xqueryText>
+                </con5:expr>
+              </con5:replace>
+              <con3:route>
+                <con2:comment>Invoke the Log client filter proxy service over 'local' transport</con2:comment>
+                <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-7341</con2:id>
+                <con3:service ref="CommonServiceInterfaces/src/osb/proxyServices/LogClientFilter" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                <con3:outboundTransform>
+                  <con1:replace varName="body" contents-only="true" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/alert/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                    <con2:id>_ActionId-5548465865317330112-59890fab.138e0e7f46e.-7340</con2:id>
+                    <con1:expr>
+                      <con2:xqueryTransform>
+                        <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/Populate_LogSchema_2.00"/>
+                        <con2:param name="serviceID">
+                          <con2:path>$configVariables/var:ServiceID/text()</con2:path>
+                        </con2:param>
+                        <con2:param name="messageText">
+                          <con2:path>fn:concat('Service ', $configVariables/var:ServiceName/text() , ' completed for ', $configVariables/var:DeliveryCount/text(), ' time')</con2:path>
+                        </con2:param>
+                        <con2:param name="serverName">
+                          <con2:path>$configVariables/var:ServerName/text()</con2:path>
+                        </con2:param>
+                        <con2:param name="staticVariable">
+                          <con2:path>$staticVariable</con2:path>
+                        </con2:param>
+                        <con2:param name="stackTraceText">
+                          <con2:path>'NA'</con2:path>
+                        </con2:param>
+                        <con2:param name="logLevelCode">
+                          <con2:path>'Info'</con2:path>
+                        </con2:param>
+                        <con2:param name="serviceName">
+                          <con2:path>$configVariables/var:ServiceName/text()</con2:path>
+                        </con2:param>
+                      </con2:xqueryTransform>
+                    </con1:expr>
+                  </con1:replace>
+                </con3:outboundTransform>
+              </con3:route>
+            </con5:responseTransform>
+          </con5:route>
+        </con:actions>
+      </con:route-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>
