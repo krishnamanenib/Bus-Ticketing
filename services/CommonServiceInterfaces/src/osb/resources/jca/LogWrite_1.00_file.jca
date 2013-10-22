@@ -1,0 +1,14 @@
+<adapter-config name="CommonserviceLogProcLogWrite_1.00" adapter="File Adapter" wsdlLocation="../wsdls/LogWrite_1.00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/FileAdapter"/>
+  <endpoint-interaction portType="Write_ptt" operation="Write">
+    <interaction-spec className="oracle.tip.adapter.file.outbound.FileInteractionSpec">
+      <property name="PhysicalDirectory" value="!!osb.file.cs.logdir!!"/>  
+      <!-- <property name="PhysicalDirectory" value="c:\"/>  -->
+      <property name="Append" value="true"/>
+      <property name="FileNamingConvention" value="!!osb.file.cs.logfilename!!"/>
+      <property name="UseStaging" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

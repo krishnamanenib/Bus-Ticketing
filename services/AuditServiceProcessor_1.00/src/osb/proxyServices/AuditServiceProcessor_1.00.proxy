@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isTracingEnabled="false" isAutoPublish="false">
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jms</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jms://!!osb.jms.loadbalancer!!/!!osb.jms.connectionfactory!!/jms.AuditService</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+    <tran:provider-specific>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-987274209553190135--27177272.1313b21f376.-7e3b">
+    <con:pipeline type="request" name="AuditService - PairNode_request">
+      <con:stage name="stage - Log in Queue">
+        <con:context>
+          <con2:userNsDecl namespace="http://www.nike.com/GlobalConfigurations_1.00/" prefix="glob"/>
+        </con:context>
+        <con:actions>
+          <con1:log>
+            <con2:id>_ActionId-2099614547660632126-66bf6a5f.12fb87f52bb.-7dc8</con2:id>
+            <con1:logLevel>info</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$body</con2:xqueryText>
+            </con1:expr>
+            <con1:message>########## This is AuditServiceProcessor #################</con1:message>
+          </con1:log>
+          <con3:assign varName="inputVariable">
+            <con2:id>_ActionId-3659683005812096437--3bc9c605.138377a98dd.-7f92</con2:id>
+            <con3:expr>
+              <con2:xqueryText>$body/*[1]</con2:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con3:assign varName="globalConfigurationsServiceInput" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con2:id>_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7e5f</con2:id>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="GlobalConfigurationsClient/src/osb/resources/xqueries/GetConfigForAServiceByIdInput"/>
+                <con2:param name="serviceId">
+                  <con2:path>'0000'</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:assign>
+          <con3:wsCallout xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con2:id>_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7e41</con2:id>
+            <con3:service xsi:type="ref:BusinessServiceRef" ref="GlobalConfigurationsClient/src/osb/businessServices/GlobalConfigurationClient_BS_1.00" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:operation>GetConfigForAServiceById</con3:operation>
+            <con3:request>
+              <con3:body>$globalConfigurationsServiceInput</con3:body>
+            </con3:request>
+            <con3:response>
+              <con3:body>globalConfigurationsServiceOutput</con3:body>
+            </con3:response>
+            <con3:requestTransform/>
+            <con3:responseTransform/>
+          </con3:wsCallout>
+          <con1:assign varName="errorNotificationList" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config">
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7e21</con7:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$globalConfigurationsServiceOutput/glob:service/glob:field[glob:key='ErrorNotificationList']/glob:value/text()</con6:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="emailSubject" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config">
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7e03</con7:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$globalConfigurationsServiceOutput/glob:service/glob:field[glob:key='EmailSubject']/glob:value/text()</con6:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="emailFromID" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config">
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7dca</con7:id>
+            <con1:expr>
+              <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$globalConfigurationsServiceOutput/glob:service/glob:field[glob:key='EmailFromID']/glob:value/text()</con6:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con3:assign varName="transformedVariable">
+            <con2:id>_ActionId-3659683005812096437--3bc9c605.138377a98dd.-7f90</con2:id>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="AuditServiceProcessor_1.00/src/osb/resources/xqueries/AuditServicePrrocessor_XQ_1.00"/>
+                <con2:param name="auditServiceRequest1">
+                  <con2:path>$inputVariable</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:assign>
+          <con1:log>
+            <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7dc0</con2:id>
+            <con1:logLevel>info</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>$transformedVariable</con2:xqueryText>
+            </con1:expr>
+            <con1:message>############## This is input to DATABASE ##########</con1:message>
+          </con1:log>
+          <con4:route>
+            <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7fa9</con2:id>
+            <con4:service ref="AuditServiceProcessor_1.00/src/osb/businessServices/AuditService_DB_Write_1.01" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:operation>merge</con4:operation>
+            <con4:outboundTransform>
+              <con3:routing-options>
+                <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7f82</con2:id>
+                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+              </con3:routing-options>
+              <con3:replace varName="body" contents-only="true">
+                <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7f3b</con2:id>
+                <con3:expr>
+                  <con2:xqueryText>$transformedVariable</con2:xqueryText>
+                </con3:expr>
+              </con3:replace>
+              <con1:log>
+                <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7d99</con2:id>
+                <con1:logLevel>info</con1:logLevel>
+                <con1:expr>
+                  <con2:xqueryText>$body</con2:xqueryText>
+                </con1:expr>
+                <con1:message>###### BODY after REPLACE action ##############</con1:message>
+              </con1:log>
+            </con4:outboundTransform>
+          </con4:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="AuditService - PairNode_response"/>
+    <con:pipeline type="error" name="_onErrorHandler-987274209553190135--27177272.1313b21f376.-7e3b">
+      <con:stage name="stage11">
+        <con:context/>
+        <con:actions>
+          <con1:log>
+            <con2:id>_ActionId-987274209553190135--27177272.1313b21f376.-7e03</con2:id>
+            <con1:logLevel>info</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>concat($fault/ctx:errorCode," ",$fault/ctx:reason," ",$fault/ctx:details)</con2:xqueryText>
+            </con1:expr>
+            <con1:message>##### Error in AuditServiceProcessor ################</con1:message>
+          </con1:log>
+          <con4:route>
+            <con2:id>_ActionId-115604841106618445--18d05487.131d4354b28.-7dac</con2:id>
+            <con4:service ref="E-Mail_Service/src/osb/businessServices/E-Mail_Business_Service_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:outboundTransform>
+              <con3:replace varName="body" contents-only="true">
+                <con2:id>_ActionId-3659683005812096437--3bc9c605.138377a98dd.-7f8c</con2:id>
+                <con3:expr>
+                  <con2:xqueryText>$inputVariable</con2:xqueryText>
+                </con3:expr>
+              </con3:replace>
+              <con1:transport-headers copy-all="false" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/pipeline/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-8477607084630420141--538bb1ef.131d8e20940.-7ee7</con7:id>
+                <con1:header-set>outbound-request</con1:header-set>
+                <con1:header value="expression" name="To">
+                  <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">$errorNotificationList</con6:xqueryText>
+                </con1:header>
+                <con1:header name="Subject" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">$emailSubject</con7:xqueryText>
+                </con1:header>
+                <con1:header name="From" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">$emailFromID</con7:xqueryText>
+                </con1:header>
+              </con1:transport-headers>
+            </con4:outboundTransform>
+          </con4:route>
+          <con4:route>
+            <con2:id>_ActionId-115604841106618445--18d05487.131d4354b28.-7b49</con2:id>
+            <con4:service ref="AuditServiceProcessor_1.00/src/osb/businessServices/AuditServiceProcessor_ErrorBS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con4:outboundTransform>
+              <con3:replace varName="body" contents-only="true">
+                <con2:id>_ActionId-115604841106618445--18d05487.131d4354b28.-7b48</con2:id>
+                <con3:expr>
+                  <con2:xqueryText>$inputVariable</con2:xqueryText>
+                </con3:expr>
+              </con3:replace>
+            </con4:outboundTransform>
+          </con4:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow>
+      <con:pipeline-node name="AuditService - PairNode">
+        <con:request>AuditService - PairNode_request</con:request>
+        <con:response>AuditService - PairNode_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

@@ -1,0 +1,12 @@
+<adapter-config name="CommonGPAYSAPAdapterForHR_SyncRead_1.00" adapter="File Adapter" wsdlLocation="../wsdls/GLB-PR_ZHRMD_GPAY_File_Adp_Read_1.00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/FileAdapter" adapterRef=""/>
+  <endpoint-interaction portType="synchReadFile_ptt" operation="synchReadFile">
+    <interaction-spec className="oracle.tip.adapter.file.outbound.FileReadInteractionSpec">
+      <property name="PhysicalDirectory" value="!!osb.file.datadir!!/hr/PY/GBL/in"/>
+      <property name="DeleteFile" value="false"/>
+      <property name="FileName" value="SAP_Inbound_IDOC.xml"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

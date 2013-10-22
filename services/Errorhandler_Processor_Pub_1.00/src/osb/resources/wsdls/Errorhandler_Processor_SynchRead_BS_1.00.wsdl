@@ -1,0 +1,20 @@
+<definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Processing_Service/Error_Processing_Service_File_Reader/Errorhandler_Processor_SynchRead_FileAdp_1_00" name="Errorhandler_Processor_SynchRead_FileAdp_1_00-concrete" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Processing_Service/Error_Processing_Service_File_Reader/Errorhandler_Processor_SynchRead_FileAdp_1_00" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Processing_Service/Error_Processing_Service_File_Reader/Errorhandler_Processor_SynchRead_FileAdp_1_00" location="Errorhandler_Processor_SynchRead_FileAdp_1.00.wsdl"/>
+  <binding name="SynchRead_ptt-binding" type="tns:SynchRead_ptt">
+    <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+    <operation name="SynchRead">
+      <soap:operation soapAction="SynchRead"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="Errorhandler_Processor_SynchRead_FileAdp_1_00-service">
+    <port name="Errorhandler_Processor_SynchRead_FileAdp_1_00-port" binding="tns:SynchRead_ptt-binding">
+      <soap:address location="jca://eis/FileAdapter"/>
+    </port>
+  </service>
+</definitions>

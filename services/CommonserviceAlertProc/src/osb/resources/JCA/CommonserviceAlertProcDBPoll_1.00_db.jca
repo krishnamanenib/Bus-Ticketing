@@ -1,0 +1,21 @@
+<adapter-config name="CommonserviceAlertProcDBPoll_1.00" adapter="Database Adapter" wsdlLocation="../WSDL/CommonserviceAlertProcDBPoll_1_00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/iccIR_comsvcXA" UIConnectionName="Dev environment" adapterRef=""/>
+  <endpoint-activation portType="CommonserviceAlertProcDBPoll_1.00_ptt" operation="receive">
+    <activation-spec className="oracle.tip.adapter.db.DBActivationSpec">
+      <property name="DescriptorName" value="CommonserviceAlertProcDBPoll_1.00.MiddlewareCommonAlert"/>
+      <property name="QueryName" value="CommonserviceAlertProcDBPoll_1.00Select"/>
+      <property name="MappingsMetaDataURL" value="../XML/CommonserviceAlertProcDBPoll_1.00-or-mappings.xml"/>
+      <property name="PollingStrategy" value="LogicalDeletePollingStrategy"/>
+      <property name="MarkReadColumn" value="PUBLISHED_FLAG"/>
+      <property name="MarkReadValue" value="Y"/>
+      <property name="MarkUnreadValue" value="N"/>
+      <property name="PollingInterval" value="5"/>
+      <property name="MaxRaiseSize" value="1"/>
+      <property name="MaxTransactionSize" value="10"/>
+      <property name="NumberOfThreads" value="1"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+    </activation-spec>
+  </endpoint-activation>
+
+</adapter-config>

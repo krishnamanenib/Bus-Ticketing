@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="XML"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:transactions isRequired="true" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jms</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jms://!!osb.jms.loadbalancer!!/!!osb.jms.xaconnectionfactory!!/jms.AutoSysTrigger</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+    <tran:provider-specific>
+      <jms:is-queue>true</jms:is-queue>
+      <jms:is-secure>false</jms:is-secure>
+      <jms:inbound-properties>
+        <jms:message-selector>SubArea='AutoTest_logistics'</jms:message-selector>
+        <jms:response-required>false</jms:response-required>
+        <jms:XA-required>false</jms:XA-required>
+      </jms:inbound-properties>
+      <jms:request-encoding>UTF-8</jms:request-encoding>
+      <jms:jndi-timeout>0</jms:jndi-timeout>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode_request">
+      <con:stage name="stageServiceInit">
+        <con:context/>
+        <con:actions>
+          <con3:assign varName="autosyscorrelationID" xmlns:con7="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jca="http://www.bea.com/wli/sb/transports/jca" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con6="http://www.bea.com/wli/sb/stages/alert/config">
+            <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-7cd1</con2:id>
+            <con3:expr>
+              <con8:xqueryText xmlns:con8="http://www.bea.com/wli/sb/stages/config">$inbound/ctx:transport/ctx:request/tp:headers/jms:JMSMessageID/text()</con8:xqueryText>
+            </con3:expr>
+          </con3:assign>
+          <con1:log>
+            <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-7efd</con2:id>
+            <con1:logLevel>warning</con1:logLevel>
+            <con1:expr>
+              <con2:xqueryText>fn:concat('Autosys is triggered successfully for Correlation ID ',$autosyscorrelationID)</con2:xqueryText>
+            </con1:expr>
+            <con1:message>****AutoSys_Trigger_Test****</con1:message>
+          </con1:log>
+          <con1:report>
+            <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-7c09</con2:id>
+            <con1:expr>
+              <con2:xqueryText>fn:concat('Autosys is triggered successfully for Correlation ID ',$autosyscorrelationID)</con2:xqueryText>
+            </con1:expr>
+          </con1:report>
+        </con:actions>
+      </con:stage>
+      <con:stage name="stageResponse">
+        <con:context/>
+        <con:actions>
+          <con3:route>
+            <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-788e</con2:id>
+            <con3:service ref="Autosys_Trigger_Test/osb/src/businessServices/Autosys_Trigger_Test_Post_AutosysResponse_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:outboundTransform>
+              <con3:replace varName="body" contents-only="true" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jca="http://www.bea.com/wli/sb/transports/jca">
+                <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-788d</con2:id>
+                <con3:location>
+                  <con6:xpathText xmlns:con6="http://www.bea.com/wli/sb/stages/config">.</con6:xpathText>
+                </con3:location>
+                <con3:expr>
+                  <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">'Success'</con6:xqueryText>
+                </con3:expr>
+              </con3:replace>
+              <con3:transport-headers copy-all="false" xmlns:con6="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:jca="http://www.bea.com/wli/sb/transports/jca">
+                <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-788c</con2:id>
+                <con3:header-set>outbound-request</con3:header-set>
+                <con3:header name="JMSCorrelationID" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">$autosyscorrelationID</con7:xqueryText>
+                </con3:header>
+                <con3:header name="JMSType" value="expression">
+                  <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">'Text'</con6:xqueryText>
+                </con3:header>
+                <con3:header name="AutoSysReturnCode" value="expression">
+                  <con6:xqueryText xmlns:con6="http://www.bea.com/wli/sb/stages/config">0</con6:xqueryText>
+                </con3:header>
+                <con3:header name="SubArea" value="expression">
+                  <con2:xqueryText>'TRIGGER_TEST'</con2:xqueryText>
+                </con3:header>
+              </con3:transport-headers>
+              <con1:log>
+                <con2:id>_ActionId-3053899836242462837-1d24b355.13c4c53c535.-770a</con2:id>
+                <con1:logLevel>warning</con1:logLevel>
+                <con1:expr>
+                  <con2:xqueryText>fn:concat('Autosys Response is successfully sent for Correlation ID ',$autosyscorrelationID)</con2:xqueryText>
+                </con1:expr>
+                <con1:message>****AutoSys_Trigger_Test****</con1:message>
+              </con1:log>
+            </con3:outboundTransform>
+          </con3:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode_response"/>
+    <con:flow>
+      <con:pipeline-node name="PipelinePairNode">
+        <con:request>PipelinePairNode_request</con:request>
+        <con:response>PipelinePairNode_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

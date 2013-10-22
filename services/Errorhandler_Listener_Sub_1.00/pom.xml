@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<groupId>com.nike.enterprise.fusion.osb</groupId>
+	<version>1.0</version>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>Errorhandler_Listener_Sub</artifactId>
+	<packaging>jar</packaging>
+	<name>Errorhandler_Listener_Sub</name>
+	<properties>
+		<logicalDomainName>osb</logicalDomainName>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.nike.enterprise.fusion.maven</groupId>
+				<artifactId>osbbuild-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>OSB Build</id>
+						<phase>package</phase>
+						<goals>
+							<goal>osbbuild</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.nike.enterprise.fusion.maven</groupId>
+				<artifactId>osbdeploy-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>OSB Deploy</id>
+						<phase>install</phase>
+						<goals>
+							<goal>osbdeploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,35 @@
+#!/bin/ksh
+#######################################################################################
+# Date - 10/21/2011 
+# Author - Madhu Gupta 
+# Decsription - Sript arround the java SAPHCMToADSync application. 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#######################################################################################
+ME=${0##*/}
+MYPID=$$
+DEBUG=${DEBUG:-false}
+JAVA_HOME=${JAVA_HOME:-"/int1/java/jdk1.6.0_21"}
+
+# Source in the CUSTOM_PROFILE if set.
+# This will be set in sudo'ing from the Autosys trg-user to our Admin userid.  System variables do not
+# cross over in the sudo, but this variable does (configured that way in /etc/sudoers).
+if [ "x${CUSTOM_PROFILE}" != "x" ] ; then
+  echo "Sourcing in CUSTOM_PROFILE '${CUSTOM_PROFILE}'"
+  . ${CUSTOM_PROFILE}
+else
+  echo "no CUSTOM_PROFILE set"
+fi
+
+debug() {
+ if ${DEBUG}; then
+  echo [DEBUG] $*
+ fi
+}
+
+
+export torun='${JAVA_HOME}/bin/java -cp ${SAPHCM_TO_AD_SYNC_CLASSPATH} !!osb.hr.saphcmadsync.jvm.options!! com.nike.enterprise.util.controller.SAPHCMToADSyncController "$@"'
+debug "run: $torun"
+ 
+eval $torun
+

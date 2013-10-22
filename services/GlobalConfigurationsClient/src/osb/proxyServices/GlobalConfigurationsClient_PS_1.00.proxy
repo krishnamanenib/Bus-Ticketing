@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/GlobalConfigurationsClient/src/osb/proxyServices/GlobalConfigurationsClient_PS_1.00</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode1_request">
+      <con:stage name="stage - Call Global Configuration Service">
+        <con:context/>
+        <con:actions>
+          <con1:assign varName="serviceId">
+            <con2:id>_ActionId-4445324255622066787--4076fed0.1307ac337a3.-7637</con2:id>
+            <con1:expr>
+              <con2:xqueryText>'33'</con2:xqueryText>
+            </con1:expr>
+          </con1:assign>
+          <con1:assign varName="serviceInput">
+            <con2:id>_ActionId-4445324255622066787--4076fed0.1307ac337a3.-7595</con2:id>
+            <con1:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="GlobalConfigurationsClient/src/osb/resources/xqueries/GetConfigForAServiceByIdInput"/>
+                <con2:param name="serviceId">
+                  <con2:path>$serviceId</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con1:expr>
+          </con1:assign>
+          <con1:wsCallout>
+            <con2:id>_ActionId-4445324255622066787--4076fed0.1307ac337a3.-765a</con2:id>
+            <con1:service xsi:type="ref:BusinessServiceRef" ref="GlobalConfigurationsClient/src/osb/businessServices/GlobalConfigurationClient_BS_1.00" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con1:operation>GetConfigForAServiceById</con1:operation>
+            <con1:request>
+              <con1:body>$serviceInput</con1:body>
+            </con1:request>
+            <con1:response>
+              <con1:body>serviceOutput</con1:body>
+            </con1:response>
+            <con1:requestTransform/>
+            <con1:responseTransform/>
+          </con1:wsCallout>
+          <con3:log>
+            <con2:id>_ActionId-4445324255622066787--4076fed0.1307ac337a3.-756b</con2:id>
+            <con3:logLevel>info</con3:logLevel>
+            <con3:expr>
+              <con2:xqueryText>$serviceOutput</con2:xqueryText>
+            </con3:expr>
+          </con3:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response"/>
+    <con:flow>
+      <con:pipeline-node name="PipelinePairNode1">
+        <con:request>PipelinePairNode1_request</con:request>
+        <con:response>PipelinePairNode1_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

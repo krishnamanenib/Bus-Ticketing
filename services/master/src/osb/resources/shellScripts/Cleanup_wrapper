@@ -1,0 +1,9 @@
+#!/bin/ksh
+#######################################################################################
+# Decsription - Sudo wrapper script around Cleanup script
+#######################################################################################
+
+SUDO_DIR=/int2/scripts/tools/sudobin/!!osb.admin.user!!/applications/hr
+ 
+export torun='sudo -u !!osb.admin.user!! ${SUDO_DIR}/Cleanup "$@"'
+eval $torun

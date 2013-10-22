@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:jca="http://www.bea.com/wli/sb/transports/jca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isTracingEnabled="false" isAutoPublish="false">
+    <ser:binding type="SOAP" isSoap12="false" xsi:type="con5:SoapBindingType" xmlns:con5="http://www.bea.com/wli/sb/services/bindings/config">
+      <con5:wsdl ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/wsdls/Errorhandler_Processor_Read_BS_1.00"/>
+      <con5:binding>
+        <con5:name>Read_ptt-binding</con5:name>
+        <con5:namespace>http://xmlns.oracle.com/pcbpel/adapter/file/Error_Processing_Service/Error_Processing_Service_File_Reader/Errorhandler_Processor_Read_FileAdp_1_00</con5:namespace>
+      </con5:binding>
+      <con5:selector type="SOAP action"/>
+    </ser:binding>
+    <ser:monitoring isEnabled="true">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Action</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:ws-policy>
+      <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+    </ser:ws-policy>
+    <ser:throttling enabled="false">
+      <ser:capacity>0</ser:capacity>
+      <ser:maxQueueLength>0</ser:maxQueueLength>
+      <ser:timeToLive>0</ser:timeToLive>
+    </ser:throttling>
+    <ser:messageTracing enabled="false">
+      <ser:detailsLevel>Terse</ser:detailsLevel>
+      <ser:maxSize>8192</ser:maxSize>
+    </ser:messageTracing>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>jca</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>jca://eis/FileAdapter</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <jca:jca-file ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/adapters/Errorhandler_Processor_Read_FileAdp_1.00"/>
+      <jca:adapter-name>File Adapter</jca:adapter-name>
+      <jca:adapter-type>FILE</jca:adapter-type>
+      <jca:always-use-wsdl>false</jca:always-use-wsdl>
+      <jca:connection-mode>managed</jca:connection-mode>
+      <jca:inbound-properties>
+        <jca:operation-properties>
+          <jca:operation-name>Read</jca:operation-name>
+          <jca:spec-properties>
+            <jca:property>
+              <jca:name>IncludeFiles</jca:name>
+              <jca:value>.*\.txt</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>UseHeaders</jca:name>
+              <jca:value>false</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>Recursive</jca:name>
+              <jca:value>true</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>PollingFrequency</jca:name>
+              <jca:value>60</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>MinimumAge</jca:name>
+              <jca:value>0</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>PhysicalDirectory</jca:name>
+              <jca:value>!!osb.file.datadir!!/logistics/errorzone/reprocess</jca:value>
+            </jca:property>
+            <jca:property>
+              <jca:name>DeleteFile</jca:name>
+              <jca:value>true</jca:value>
+            </jca:property>
+          </jca:spec-properties>
+        </jca:operation-properties>
+      </jca:inbound-properties>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-5585477235484781075--2cf902d9.12ff80b154f.-79fc">
+    <con:pipeline type="request" name="ErrorProcessorPipelinePair_request">
+      <con:stage name="stage-PostToDestination">
+        <con:context>
+          <con1:varNsDecl namespace="http://www.Nike.GeneralError/XmlSchema" prefix="xs1"/>
+        </con:context>
+        <con:actions>
+          <con4:log>
+            <con1:id>_ActionId-5585477235484781075--2cf902d9.12ff80b154f.-7b37</con1:id>
+            <con4:logLevel>info</con4:logLevel>
+            <con4:expr>
+              <con1:xqueryText>'Message payload received from the source file.'</con1:xqueryText>
+            </con4:expr>
+            <con4:message>***** Errorhandler_Processor_Read_PS_1.00.proxy. *****</con4:message>
+          </con4:log>
+          <con2:ifThenElse>
+            <con1:id>_ActionId-5585477235484781075--2cf902d9.12ff80b154f.-7f07</con1:id>
+            <con2:case>
+              <con2:condition>
+                <con1:xqueryText>$body/xs1:ErrorProcessing/xs1:SourceType = 'JMSQueue' or $body/xs1:ErrorProcessing/xs1:SourceType = 'JMSTopic'</con1:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con2:javaCallout varName="return">
+                  <con1:id>_ActionId-7343628608635183448-74608abd.12ffd77bb7b.-7eb2</con1:id>
+                  <con2:archive ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/lib/JMSUtil"/>
+                  <con2:className>com.nike.util.DynamicPublishToJMS</con2:className>
+                  <con2:method>public static java.lang.String publish(org.apache.xmlbeans.XmlObject)</con2:method>
+                  <con2:expr>
+                    <con1:xqueryText>$body</con1:xqueryText>
+                  </con2:expr>
+                  <con2:return-param-as-ref>false</con2:return-param-as-ref>
+                </con2:javaCallout>
+                <con4:log>
+                  <con1:id>_ActionId-7343628608635183448-74608abd.12ffd77bb7b.-7ed3</con1:id>
+                  <con4:logLevel>info</con4:logLevel>
+                  <con4:expr>
+                    <con1:xqueryText>fn:concat('JMS message published to ',data($body/xs1:ErrorProcessing/xs1:JMSDestination),' Queue.')</con1:xqueryText>
+                  </con4:expr>
+                  <con4:message>***** Errorhandler_Processor_Read_PS_1.00.proxy. *****</con4:message>
+                </con4:log>
+              </con2:actions>
+            </con2:case>
+            <con2:case>
+              <con2:condition>
+                <con1:xqueryText>$body/xs1:ErrorProcessing/xs1:SourceType = 'File'</con1:xqueryText>
+              </con2:condition>
+              <con2:actions>
+                <con4:log>
+                  <con1:id>_ActionId-6342592004726278758--71c0cf0f.13045651a29.-7f29</con1:id>
+                  <con4:logLevel>info</con4:logLevel>
+                  <con4:expr>
+                    <con1:xqueryText>'Source Type = File'</con1:xqueryText>
+                  </con4:expr>
+                  <con4:message>***** Errorhandler_Processor_Read_PS_1.00.proxy. *****</con4:message>
+                </con4:log>
+                <con2:wsCallout>
+                  <con1:id>_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7f30</con1:id>
+                  <con2:service xsi:type="ref:BusinessServiceRef" ref="Errorhandler_Processor_Pub_1.00/src/osb/businessServices/Errorhandler_Processor_SynchRead_BS_1.00" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con2:operation>SynchRead</con2:operation>
+                  <con2:request>
+                    <con2:body wrapped="true">$read</con2:body>
+                    <con2:header/>
+                  </con2:request>
+                  <con2:response>
+                    <con2:body wrapped="true">payload</con2:body>
+                    <con2:header/>
+                  </con2:response>
+                  <con2:requestTransform>
+                    <con2:assign varName="address">
+                      <con1:id>_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7e6b</con1:id>
+                      <con2:expr>
+                        <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                          <con:resource ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/xqueries/Error_Processing_GetFilePath_XQ_01.00"/>
+                          <con:param name="endpoint">
+                            <con:path>data($body/xs1:ErrorProcessing/xs1:MessagePayload/xs1:MessagePayload/*)</con:path>
+                          </con:param>
+                        </con:xqueryTransform>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:transport-headers copy-all="false">
+                      <con1:id>_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7ea4</con1:id>
+                      <con2:header-set>outbound-request</con2:header-set>
+                      <con2:header name="jca.file.FileName" value="expression">
+                        <con1:xqueryText>fn:substring-after($address,'|')</con1:xqueryText>
+                      </con2:header>
+                      <con2:header name="jca.file.Directory" value="expression">
+                        <con1:xqueryText>fn:substring-before($address,'|')</con1:xqueryText>
+                      </con2:header>
+                    </con2:transport-headers>
+                  </con2:requestTransform>
+                  <con2:responseTransform/>
+                </con2:wsCallout>
+                <con2:javaCallout varName="fileData">
+                  <con1:id>_ActionId-6615968768005810973-3afa4727.13064676cba.-7f4f</con1:id>
+                  <con2:archive ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/lib/JMSUtil"/>
+                  <con2:className>com.nike.util.Base64Decoder</con2:className>
+                  <con2:method>public static java.lang.String convertData(java.lang.String)</con2:method>
+                  <con2:expr>
+                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">$payload</con:xqueryText>
+                  </con2:expr>
+                  <con2:return-param-as-ref>false</con2:return-param-as-ref>
+                </con2:javaCallout>
+                <con3:route>
+                  <con1:id>_ActionId-6526602727348918075-6b4a54f2.13049ba7a8a.-7ecb</con1:id>
+                  <con3:service ref="Errorhandler_Processor_Pub_1.00/src/osb/businessServices/Errorhandler_Processor_Write_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con3:operation>Write</con3:operation>
+                  <con3:outboundTransform>
+                    <con2:assign varName="address">
+                      <con1:id>_ActionId-6526602727348918075-6b4a54f2.13049ba7a8a.-7e8e</con1:id>
+                      <con2:expr>
+                        <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                          <con:resource ref="Errorhandler_Processor_Pub_1.00/src/osb/resources/xqueries/Error_Processing_GetFilePath_XQ_01.00"/>
+                          <con:param name="endpoint">
+                            <con:path>data($body/xs1:ErrorProcessing/xs1:Source)</con:path>
+                          </con:param>
+                        </con:xqueryTransform>
+                      </con2:expr>
+                    </con2:assign>
+                    <con2:transport-headers copy-all="false">
+                      <con1:id>_ActionId-6526602727348918075-6b4a54f2.13049ba7a8a.-7e8d</con1:id>
+                      <con2:header-set>outbound-request</con2:header-set>
+                      <con2:header name="jca.file.FileName" value="expression">
+                        <con1:xqueryText>fn:substring-after($address,'|')</con1:xqueryText>
+                      </con2:header>
+                      <con2:header name="jca.file.Directory" value="expression">
+                        <con1:xqueryText>fn:substring-before($address,'|')</con1:xqueryText>
+                      </con2:header>
+                    </con2:transport-headers>
+                    <con2:replace varName="body" contents-only="false">
+                      <con1:id>_ActionId-6526602727348918075-6b4a54f2.13049ba7a8a.-7e8c</con1:id>
+                      <con2:location>
+                        <con1:xpathText>.</con1:xpathText>
+                      </con2:location>
+                      <con2:expr>
+                        <con1:xqueryText>$fileData</con1:xqueryText>
+                      </con2:expr>
+                    </con2:replace>
+                  </con3:outboundTransform>
+                </con3:route>
+              </con2:actions>
+            </con2:case>
+          </con2:ifThenElse>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="error" name="_onErrorHandler-5585477235484781075--2cf902d9.12ff80b154f.-79fc">
+      <con:stage name="stage-ServiceErrorHandler">
+        <con:context>
+          <con1:varNsDecl namespace="http://www.Nike.GeneralError/XmlSchema" prefix="xs1"/>
+        </con:context>
+        <con:actions>
+          <con7:log xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config" xmlns:con7="http://www.bea.com/wli/sb/stages/logging/config">
+            <con8:id xmlns:con8="http://www.bea.com/wli/sb/stages/config">_ActionId-5585477235484781075--2cf902d9.12ff80b154f.-798a</con8:id>
+            <con7:logLevel>error</con7:logLevel>
+            <con7:expr>
+              <con8:xqueryText xmlns:con8="http://www.bea.com/wli/sb/stages/config">fn:concat('An Exception has occured in the Error Processing Service. Error Code: ',data($fault/ctx:errorCode))</con8:xqueryText>
+            </con7:expr>
+            <con7:message>***** Errorhandler_Processor_Read_PS_1.00.proxy. *****</con7:message>
+          </con7:log>
+          <con4:assign varName="errorMessage" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+            <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-3149497542269665438-25ba06a4.1303f3bf93c.-7b27</con7:id>
+            <con4:expr>
+              <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">fn:concat('Error Code: ',$fault/*:errorCode,'
+Error Reason: ',data($fault/*:reason),'
+Error Details: ',data($fault/*:details))</con7:xqueryText>
+            </con4:expr>
+          </con4:assign>
+          <con3:route>
+            <con1:id>_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7b0c</con1:id>
+            <con3:service ref="E-Mail_Service/src/osb/businessServices/E-Mail_Business_Service_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:outboundTransform>
+              <con4:transport-headers copy-all="false" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+                <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7aaf</con7:id>
+                <con4:header-set>outbound-request</con4:header-set>
+                <con4:header name="To" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">'ankita.srivastava@nike.com'</con7:xqueryText>
+                </con4:header>
+                <con4:header name="Subject" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">'Error Processor Failure Notification.'</con7:xqueryText>
+                </con4:header>
+                <con4:header name="From" value="expression">
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">'Error Handler Service'</con7:xqueryText>
+                </con4:header>
+              </con4:transport-headers>
+              <con4:replace varName="body" contents-only="true" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/publish/config" xmlns:jms="http://www.bea.com/wli/sb/transports/jms" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config">
+                <con7:id xmlns:con7="http://www.bea.com/wli/sb/stages/config">_ActionId-4318649118018671856-20e92dbf.1300779fb4e.-7ab1</con7:id>
+                <con4:expr>
+                  <con7:xqueryText xmlns:con7="http://www.bea.com/wli/sb/stages/config">fn:concat('Exception encountered in the Process flow.
+',$errorMessage)</con7:xqueryText>
+                </con4:expr>
+              </con4:replace>
+            </con3:outboundTransform>
+          </con3:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="ErrorProcessorPipelinePair_response">
+      <con:stage name="stage-Response">
+        <con:context/>
+        <con:actions>
+          <con4:log>
+            <con1:id>_ActionId-5585477235484781075--2cf902d9.12ff80b154f.-7b6f</con1:id>
+            <con4:logLevel>info</con4:logLevel>
+            <con4:expr>
+              <con1:xqueryText>'Message routing to Queue/File Complete.'</con1:xqueryText>
+            </con4:expr>
+            <con4:message>***** Errorhandler_Processor_Read_PS_1.00.proxy. *****</con4:message>
+          </con4:log>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:flow>
+      <con:pipeline-node name="ErrorProcessorPipelinePair">
+        <con:request>ErrorProcessorPipelinePair_request</con:request>
+        <con:response>ErrorProcessorPipelinePair_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

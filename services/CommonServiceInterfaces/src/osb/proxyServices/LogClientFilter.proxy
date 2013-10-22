@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://www.bea.com/wli/sb/typesystem/config" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:con1="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con5="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con6="http://www.bea.com/wli/sb/stages/routing/config">
+  <ser:coreEntry isProxy="true" isEnabled="true" isAutoPublish="false" isTracingEnabled="false">
+    <ser:description/>
+    <ser:binding type="Mixed" xsi:type="con:MixedBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config">
+      <con:request type="XML">
+        <con6:schema ref="CommonServiceInterfaces/src/osb/resources/schemas/LogMessageXSD_1.00" element="LogMessage" xmlns:con6="http://www.bea.com/wli/sb/typesystem/config"/>
+      </con:request>
+    </ser:binding>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+    <ser:throttling enabled="false">
+      <ser:capacity>0</ser:capacity>
+      <ser:maxQueueLength>0</ser:maxQueueLength>
+      <ser:timeToLive>0</ser:timeToLive>
+    </ser:throttling>
+    <ser:messageTracing enabled="false">
+      <ser:detailsLevel>Terse</ser:detailsLevel>
+      <ser:maxSize>8192</ser:maxSize>
+    </ser:messageTracing>
+    <ser:transactions isRequired="false" sameTxForResponse="false"/>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>local</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:inbound-properties/>
+    <tran:all-headers>true</tran:all-headers>
+  </ser:endpointConfig>
+  <ser:router errorHandler="_onErrorHandler-7620072564890839053--63b5eb00.13688e1ed5d.-7f64">
+    <con1:pipeline type="error" name="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-7822">
+      <con1:stage name="CommonservicesClientSideLogFilterReadConfigDB_ErrorHandler">
+        <con1:comment>Stage level error handler</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:replace varName="fault" contents-only="true">
+            <con2:comment>Descriptive error reason for errors</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-77e8</con2:id>
+            <con3:location>
+              <con2:xpathText>./ctx:reason</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>fn:concat('Error in CommonLogService/ReadConfigDBStage :: ',$fault/ctx:reason)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con3:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-4704680211355862147-7975f52b.13831a4d35a.-7fd0</con2:id>
+            <con3:location>
+              <con2:xpathText>./v1:LogMessage</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>&lt;LogMessage> 
+PlatformName : {data($body/v1:LogMessage/v1:Header/v1:PlatformName)}
+ServiceName : {data($body/v1:LogMessage/v1:Header/v1:ServiceName)}
+ServiceID: {data($body/v1:LogMessage/v1:Header/v1:ServiceID)}
+LinkID: {data($body/v1:LogMessage/v1:Body/v1:LinkID)}
+ServerName : {data($body/v1:LogMessage/v1:Body/v1:ServerName)}
+ServerTimestamp : {data($body/v1:LogMessage/v1:Body/v1:ServerTimestamp)}
+TrackingID : {data($body/v1:LogMessage/v1:Body/v1:TrackingIDText)}
+BusinessKeyName : {data($body/v1:LogMessage/v1:Body/v1:BusinessKeyName)} 
+BusinessKeyText : {data($body/v1:LogMessage/v1:Body/v1:BusinessKeyText)}
+MessageText : {data($body/v1:LogMessage/v1:Body/v1:MessageText)}
+LogLevelCode : {data($body/v1:LogMessage/v1:Body/v1:LogLevelCode)}
+StackTraceText : {fn-bea:inlinedXML($body/v1:LogMessage/v1:Body/v1:StackTraceText)}
+&lt;/LogMessage></con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con5:route>
+            <con2:id>_ActionId-4704680211355862147-7975f52b.13831a4d35a.-7fcd</con2:id>
+            <con5:service ref="CommonServiceInterfaces/src/osb/businessServices/Log_FileWrite_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con5:operation>Write</con5:operation>
+            <con5:outboundTransform>
+              <con3:routing-options>
+                <con2:id>_ActionId-4704680211355862147-7975f52b.13831a4d35a.-7fcc</con2:id>
+                <con3:qualityOfService>exactly-once</con3:qualityOfService>
+              </con3:routing-options>
+            </con5:outboundTransform>
+          </con5:route>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-77e7</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:comment>Replying with failure incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-77e6</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline name="PipelinePairNode1_response" type="response"/>
+    <con1:pipeline type="error" name="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-77a9">
+      <con1:stage name="CommonservicesClientSideLogFilter_ErrorHandler">
+        <con1:comment>Stage level error handler</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:replace varName="fault" contents-only="true">
+            <con2:comment>Descriptive error reason for errors</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-7736</con2:id>
+            <con3:location>
+              <con2:xpathText>./ctx:reason</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>fn:concat('Error in CommonLogService/LogFilterStage :: ',$fault/ctx:reason)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con3:ifThenElse>
+            <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7e22</con2:id>
+            <con3:case>
+              <con3:condition>
+                <con2:xqueryText>fn:compare($fault/ctx:errorCode,'LOGE-06')=0</con2:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:replace varName="body" contents-only="true">
+                  <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7e21</con2:id>
+                  <con3:location>
+                    <con2:xpathText>./v1:LogMessage</con2:xpathText>
+                  </con3:location>
+                  <con3:expr>
+                    <con2:xqueryText>&lt;LogMessage> 
+PlatformName : {data($body/v1:LogMessage/v1:Header/v1:PlatformName)}
+ServiceName : {data($body/v1:LogMessage/v1:Header/v1:ServiceName)}
+ServiceID: {data($body/v1:LogMessage/v1:Header/v1:ServiceID)}
+LinkID: {data($body/v1:LogMessage/v1:Body/v1:LinkID)}
+ServerName : {data($body/v1:LogMessage/v1:Body/v1:ServerName)}
+ServerTimestamp : {data($body/v1:LogMessage/v1:Body/v1:ServerTimestamp)}
+TrackingID : {data($body/v1:LogMessage/v1:Body/v1:TrackingIDText)}
+BusinessKeyName : {data($body/v1:LogMessage/v1:Body/v1:BusinessKeyName)} 
+BusinessKeyText : {data($body/v1:LogMessage/v1:Body/v1:BusinessKeyText)}
+MessageText : {data($body/v1:LogMessage/v1:Body/v1:MessageText)}
+LogLevelCode : {data($body/v1:LogMessage/v1:Body/v1:LogLevelCode)}
+StackTraceText : {fn-bea:inlinedXML($body/v1:LogMessage/v1:Body/v1:StackTraceText)}
+&lt;/LogMessage></con2:xqueryText>
+                  </con3:expr>
+                </con3:replace>
+                <con5:route>
+                  <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7e20</con2:id>
+                  <con5:service ref="CommonServiceInterfaces/src/osb/businessServices/Log_FileWrite_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                  <con5:operation>Write</con5:operation>
+                  <con5:outboundTransform>
+                    <con3:routing-options>
+                      <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7e1f</con2:id>
+                      <con3:qualityOfService>exactly-once</con3:qualityOfService>
+                    </con3:routing-options>
+                  </con5:outboundTransform>
+                </con5:route>
+              </con3:actions>
+            </con3:case>
+            <con3:default/>
+          </con3:ifThenElse>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-7735</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:comment>Replying with failure incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-7734</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline name="PipelinePairNode1_request" type="request">
+      <con1:stage name="ReadConfigDBData" errorHandler="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-7822">
+        <con1:comment>Data fetched from the config DB</con1:comment>
+        <con1:context>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:assign varName="CommonserviceLogProcConfigDB_Input">
+            <con2:id>_ActionId-246126098358601610--542b8984.137c6bd6bb5.-7fc0</con2:id>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/LogConfigDBInputXQ_1.00"/>
+                <con2:param name="logMessage1">
+                  <con2:path>$body/v1:LogMessage</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:assign>
+          <con3:wsCallout>
+            <con2:comment>Data fetched from the config DB</con2:comment>
+            <con2:id>_ActionId-7602745868879441441--48c9b8e8.136b9b58903.-7f3a</con2:id>
+            <con3:service xsi:type="ref:BusinessServiceRef" ref="CommonServiceInterfaces/src/osb/businessServices/Log_ConfigDB_BS_1.00" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:operation>LogConfigDB_1.00</con3:operation>
+            <con3:request>
+              <con3:body>$CommonserviceLogProcConfigDB_Input</con3:body>
+            </con3:request>
+            <con3:response>
+              <con3:body>CommonserviceLogProcConfigDB_Output</con3:body>
+            </con3:response>
+            <con3:requestTransform/>
+            <con3:responseTransform/>
+          </con3:wsCallout>
+        </con1:actions>
+      </con1:stage>
+      <con1:stage name="LogFiltering" errorHandler="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-77a9">
+        <con1:comment>Log Filtering applied to the incoming messages based on the config DB data</con1:comment>
+        <con1:context>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd" prefix="xsd1"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:assign varName="messageLogLevel">
+            <con2:comment>The message level log is assigned for comparison</con2:comment>
+            <con2:id>_ActionId-7602745868879441441--48c9b8e8.136b9b58903.-7f0e</con2:id>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/LogMessageLogLevelXQ_1.00"/>
+                <con2:param name="logMessage1">
+                  <con2:path>$body/v1:LogMessage</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:assign>
+          <con3:assign varName="configuredLogLevel">
+            <con2:comment>The configured level log is assigned for comparison</con2:comment>
+            <con2:id>_ActionId-7602745868879441441--48c9b8e8.136b9b58903.-7ea8</con2:id>
+            <con3:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/LogConfiguredLogLevelXQ_1.00"/>
+                <con2:param name="outputParameters1">
+                  <con2:path>$CommonserviceLogProcConfigDB_Output</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con3:expr>
+          </con3:assign>
+          <con3:ifThenElse>
+            <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7da6</con2:id>
+            <con3:case>
+              <con3:condition>
+                <con2:xqueryText>$configuredLogLevel = 'Invalid Details' or $messageLogLevel = 'Invalid Details'</con2:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:Error>
+                  <con2:id>_ActionId-7723306782100540727--15224c7a.1377f5fe106.-7d1a</con2:id>
+                  <con3:errCode>LOGE-06</con3:errCode>
+                  <con3:message>Invalid log level set in input (OR) Invalid log level set in config DB (OR) No matching data found for the given service name/platform name and no Global service/Global platform configuration found in config DB</con3:message>
+                </con3:Error>
+              </con3:actions>
+            </con3:case>
+            <con3:default/>
+          </con3:ifThenElse>
+        </con1:actions>
+      </con1:stage>
+      <con1:stage name="ValidateMessage" errorHandler="_onErrorHandler-7655936592623671974--470c5a1b.137c05dacb1.-7e8b">
+        <con1:comment>The incoming message is trimmed and validated.</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con:assign varName="requestMessage" xmlns:con="http://www.bea.com/wli/sb/stages/transform/config">
+            <con2:comment>The elements in input message is trimmed to its length constraint as in schema</con2:comment>
+            <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7e91</con2:id>
+            <con:expr>
+              <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                <con:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/LogMessageTrimXQ_1.00"/>
+                <con:param name="logMessage1">
+                  <con:path>$body/v1:LogMessage</con:path>
+                </con:param>
+              </con:xqueryTransform>
+            </con:expr>
+          </con:assign>
+          <con3:validate>
+            <con2:comment>Incoming message is validated against the Log Schema</con2:comment>
+            <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7e90</con2:id>
+            <con3:schema ref="CommonServiceInterfaces/src/osb/resources/schemas/LogMessageXSD_1.00"/>
+            <con3:schemaElement xmlns:xsd="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd" xmlns:v1="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1">v1:LogMessage</con3:schemaElement>
+            <con3:varName>requestMessage</con3:varName>
+            <con3:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con3:location>
+            <con3:resultVarName/>
+          </con3:validate>
+        </con1:actions>
+      </con1:stage>
+      <con1:stage name="LogWrite" errorHandler="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-76fa">
+        <con1:comment>Write the log message to the log file</con1:comment>
+        <con1:context>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd" prefix="xsd1"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:ifThenElse>
+            <con2:comment>Applying the LogFiltering based on the Message and configured log level.</con2:comment>
+            <con2:id>_ActionId-7602745868879441441--48c9b8e8.136b9b58903.-7ddd</con2:id>
+            <con3:case>
+              <con3:condition>
+                <con2:xqueryText>xs:integer($configuredLogLevel)>=xs:integer($messageLogLevel)</con2:xqueryText>
+              </con3:condition>
+              <con3:actions>
+                <con3:assign varName="logDetails">
+                  <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7cad</con2:id>
+                  <con3:expr>
+                    <con2:xqueryTransform>
+                      <con2:resource ref="CommonServiceInterfaces/src/osb/resources/xqueries/LogProcLogDetailXQ_1.00"/>
+                      <con2:param name="logMessage1">
+                        <con2:path>$requestMessage</con2:path>
+                      </con2:param>
+                      <con2:param name="outputParameters1">
+                        <con2:path>$CommonserviceLogProcConfigDB_Output</con2:path>
+                      </con2:param>
+                    </con2:xqueryTransform>
+                  </con3:expr>
+                </con3:assign>
+                <con3:assign varName="logPath">
+                  <con2:comment>Getting the log path from the log details</con2:comment>
+                  <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7c1a</con2:id>
+                  <con3:expr>
+                    <con2:xqueryText>fn:substring-before($logDetails, '$$')</con2:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+                <con3:assign varName="logFileName">
+                  <con2:comment>Getting the log filename from the log details and applying the time based file rollover</con2:comment>
+                  <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7bc2</con2:id>
+                  <con3:expr>
+                    <con2:xqueryText>fn:substring-after($logDetails, '$$')</con2:xqueryText>
+                  </con3:expr>
+                </con3:assign>
+              </con3:actions>
+            </con3:case>
+            <con3:default>
+              <con2:reply>
+                <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-7513</con2:id>
+              </con2:reply>
+            </con3:default>
+          </con3:ifThenElse>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline type="error" name="_onErrorHandler-5877396529816301773--1eb89ef5.136de17c784.-76fa">
+      <con1:stage name="CommonservicesClientSideLogFilterLogWrite_ErrorHandler">
+        <con1:comment>Stage level error handler</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:replace varName="fault" contents-only="true">
+            <con2:comment>Descriptive error reason for errors</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-76c0</con2:id>
+            <con3:location>
+              <con2:xpathText>./ctx:reason</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>fn:concat('Error in CommonLogService/LogWriteStage :: ',$fault/ctx:reason)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-76bf</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:comment>Replying with failure incase of error</con2:comment>
+            <con2:id>_ActionId-5877396529816301773--1eb89ef5.136de17c784.-76be</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline name="_onErrorHandler-7620072564890839053--63b5eb00.13688e1ed5d.-7f64" type="error">
+      <con1:stage name="CommonservicesClientSideLogFilterPS_1.00 ErrorHandler">
+        <con1:comment>Service level error handler</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-7620072564890839053--63b5eb00.13688e1ed5d.-7f63</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:comment>Replying with failure incase of error</con2:comment>
+            <con2:id>_ActionId-8863386359683929997-7247eda8.136c3d94f16.-7f40</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline type="error" name="_onErrorHandler-7655936592623671974--470c5a1b.137c05dacb1.-7e8b">
+      <con1:stage name="CommonservicesClientSideValidateMessage_ErrorHandler">
+        <con1:comment>Stage level error handler</con1:comment>
+        <con1:context>
+          <con2:varNsDecl prefix="xsd1" namespace="http://www.xmlns.nike.com/enterprise/resources/LogMessage/xsd"/>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:replace varName="fault" contents-only="true">
+            <con2:comment>Descriptive error reason for errors</con2:comment>
+            <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7e18</con2:id>
+            <con3:location>
+              <con2:xpathText>./ctx:reason</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>fn:concat('Error in CommonLogService/ValidateMessageStage :: ',$fault/ctx:reason)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7e17</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:comment>Replying with failure incase of error</con2:comment>
+            <con2:id>_ActionId-7655936592623671974--470c5a1b.137c05dacb1.-7e16</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:pipeline type="error" name="_onErrorHandler-2880355042549149408--14e85c04.13808114afe.-74a2">
+      <con1:stage name="RouteNodeCommonservicesClientSideLogFilterLogWrite_ErrorHandler">
+        <con1:comment>Route to LogMessage_Pub_BS_1.00 business service</con1:comment>
+        <con1:context>
+          <con2:varNsDecl namespace="http://www.xmlns.nike.com/enterprise/resources/xsd/log/v1" prefix="v1"/>
+        </con1:context>
+        <con1:actions>
+          <con3:replace varName="fault" contents-only="true">
+            <con2:comment>Descriptive error reason for errors</con2:comment>
+            <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-7426</con2:id>
+            <con3:location>
+              <con2:xpathText>./ctx:reason</con2:xpathText>
+            </con3:location>
+            <con3:expr>
+              <con2:xqueryText>fn:concat('Error in CommonLogService/RouteNodeLogWrite :: ',$fault/ctx:reason)</con2:xqueryText>
+            </con3:expr>
+          </con3:replace>
+          <con4:log>
+            <con2:comment>Logging to the managed server log file incase of error</con2:comment>
+            <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-73d0</con2:id>
+            <con4:logLevel>error</con4:logLevel>
+            <con4:expr>
+              <con2:xqueryText><![CDATA[<LoggingServiceErrorMessage>
+<payload>{$body/v1:LogMessage}</payload>
+<fault>{$fault/*}</fault>
+</LoggingServiceErrorMessage>]]></con2:xqueryText>
+            </con4:expr>
+            <con4:message>CMN_LOG</con4:message>
+          </con4:log>
+          <con2:reply isError="true">
+            <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-73b2</con2:id>
+          </con2:reply>
+        </con1:actions>
+      </con1:stage>
+    </con1:pipeline>
+    <con1:flow>
+      <con1:pipeline-node name="PipelinePairNode1">
+        <con1:request>PipelinePairNode1_request</con1:request>
+        <con1:response>PipelinePairNode1_response</con1:response>
+      </con1:pipeline-node>
+      <con1:route-node name="RouteNodeLogWrite" error-handler="_onErrorHandler-2880355042549149408--14e85c04.13808114afe.-74a2">
+        <con1:comment>Routes to the CommonserviceAlertProcPublish Business Service</con1:comment>
+        <con1:context/>
+        <con1:actions>
+          <con6:route>
+            <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-78b2</con2:id>
+            <con6:service ref="CommonServiceInterfaces/src/osb/businessServices/LogMessage_Pub_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con6:outboundTransform>
+              <con3:transport-headers>
+                <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-7511</con2:id>
+                <con3:header-set>outbound-request</con3:header-set>
+                <con3:header value="expression" name="logFileName">
+                  <con2:xqueryText>$logFileName</con2:xqueryText>
+                </con3:header>
+                <con3:header value="expression" name="logPath">
+                  <con2:xqueryText>$logPath</con2:xqueryText>
+                </con3:header>
+              </con3:transport-headers>
+              <con3:routing-options>
+                <con2:id>_ActionId-2880355042549149408--14e85c04.13808114afe.-750f</con2:id>
+                <con3:qualityOfService>best-effort</con3:qualityOfService>
+              </con3:routing-options>
+            </con6:outboundTransform>
+            <con6:responseTransform/>
+          </con6:route>
+        </con1:actions>
+      </con1:route-node>
+    </con1:flow>
+  </ser:router>
+</xml-fragment>

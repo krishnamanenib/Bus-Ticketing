@@ -1,0 +1,13 @@
+<adapter-config name="LogConfigDB_1.00" adapter="Database Adapter" wsdlLocation="../wsdls/LogConfigDB_1_00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/iccIR_comsvc" UIConnectionName="NEW_intracd01" adapterRef=""/>
+  <endpoint-interaction portType="LogConfigDB_1_00_ptt" operation="LogConfigDB_1.00">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="!!osb.db.cs.schema!!"/>
+      <property name="ProcedureName" value="GET_LOG_CONFIG"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

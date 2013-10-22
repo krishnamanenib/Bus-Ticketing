@@ -1,0 +1,14 @@
+<adapter-config name="AuditServiceDBAdp" adapter="Database Adapter" wsdlLocation="../wsdls/AuditService_DB_Write_1.00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/osbAudit" UIConnectionName="cintrdv2" adapterRef=""/>
+  <endpoint-interaction portType="AuditServiceDBAdp_ptt" operation="insert">
+    <interaction-spec className="oracle.tip.adapter.db.DBWriteInteractionSpec">
+      <property name="DescriptorName" value="AuditServiceDBAdp.NkeMiddlewareAuditLog"/>
+      <property name="DmlType" value="insert"/>
+      <property name="MappingsMetaDataURL" value="AuditService_DB_Write_mappings_1.00.xml"/>
+      <property name="DetectOmissions" value="true"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

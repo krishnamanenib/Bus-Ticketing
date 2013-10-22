@@ -1,0 +1,24 @@
+<?binding.jca CommonserviceAlertConfigDBRead_1.00_db.jca?><wsdl:definitions name="CommonserviceAlertConfigDBRead_1.00" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceLogProcFileRollOver_1.00/Project1/CommonserviceAlertConfigDBRead_1_00" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceAlertConfigDBRead_1.00" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceLogProcFileRollOver_1.00/Project1/CommonserviceAlertConfigDBRead_1_00" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="CommonserviceAlertConfigDBRead_1_00_plt">
+        <plt:role name="CommonserviceAlertConfigDBRead_1.00_role">
+            <plt:portType name="tns:CommonserviceAlertConfigDBRead_1_00_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceAlertConfigDBRead_1.00" schemaLocation="../schema/CommonserviceAlertConfigDBRead_1_00.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="CommonserviceAlertConfigDBRead_1.00Input_msg">
+        <wsdl:part name="CommonserviceAlertConfigDBRead_1.00Input_msg" element="db:CommonserviceAlertConfigDBRead_1.00Input"/>
+    </wsdl:message>
+    <wsdl:message name="CommonserviceAlertConfigDBRead_1.00OutputCollection_msg">
+        <wsdl:part name="CommonserviceAlertConfigDBRead_1.00OutputCollection" element="db:CommonserviceAlertConfigDBRead_1.00OutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="CommonserviceAlertConfigDBRead_1_00_ptt">
+        <wsdl:operation name="CommonserviceAlertConfigDBRead_1.00">
+            <wsdl:input message="tns:CommonserviceAlertConfigDBRead_1.00Input_msg"/>
+            <wsdl:output message="tns:CommonserviceAlertConfigDBRead_1.00OutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

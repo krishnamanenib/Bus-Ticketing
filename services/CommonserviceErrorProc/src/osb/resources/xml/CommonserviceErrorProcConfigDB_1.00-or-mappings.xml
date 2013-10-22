@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-persistence xmlns="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eclipselink="http://www.eclipse.org/eclipselink/xsds/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="Eclipse Persistence Services - 2.1.2.v20101206-r8635">
+   <name>CommonserviceErrorProcConfigDB_1.00-OR</name>
+   <class-mapping-descriptors>
+      <class-mapping-descriptor xsi:type="object-relational-class-mapping-descriptor">
+         <class>CommonserviceErrorProcConfigDB_1.00.MiddlewareCommonError</class>
+         <alias>!!osb.db.cs.schema!!.MIDDLEWARE_COMMON_ERROR</alias>
+         <primary-key>
+            <field table="MIDDLEWARE_COMMON_ERROR" name="ERROR_ID" xsi:type="column"/>
+         </primary-key>
+         <events/>
+         <querying>
+            <queries>
+               <query name="CommonserviceErrorProcConfigDB_1.00Select" xsi:type="read-all-query">
+                  <reference-class>CommonserviceErrorProcConfigDB_1.00.MiddlewareCommonError</reference-class>
+                  <container xsi:type="list-container-policy">
+                     <collection-type>java.util.Vector</collection-type>
+                  </container>
+               </query>
+            </queries>
+         </querying>
+         <attribute-mappings>
+           
+             <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorId</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="ERROR_ID" xsi:type="column"/>
+               <attribute-classification>[B</attribute-classification>
+            </attribute-mapping>
+           
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>platformName</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="PLATFORM_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>serviceName</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SERVICE_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>serviceId</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SERVICE_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>linkId</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="LINK_ID" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>senderText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SENDER_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>sendingApplicationText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SENDING_APPLICATION_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>targetApplicationText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="TARGET_APPLICATION_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>serverName</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SERVER_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>serverTimestamp</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="SERVER_TIMESTAMP" xsi:type="column"/>
+               <attribute-classification>java.sql.Timestamp</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>trackingidText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="TRACKINGID_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>businesskeyName</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="BUSINESSKEY_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>businesskeyText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="BUSINESSKEY_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>messageText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="MESSAGE_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorTypeCode</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="ERROR_TYPE_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+          
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>errorCode</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="ERROR_CODE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>filename</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="FILENAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stacktraceText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="STACKTRACE_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>stageName</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="STAGE_NAME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+                     <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsDestinationText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_DESTINATION_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsDeliverymodeText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_DELIVERYMODE_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsMessageId</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_MESSAGE_ID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsTimestamp</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_TIMESTAMP" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsExpirationTime</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_EXPIRATION_TIME" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsRedeliveredFlag</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_REDELIVERED_FLAG" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsPriorityCode</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_PRIORITY_CODE" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsType</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_TYPE" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsCorrelationid</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_CORRELATIONID" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsReplytoText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_REPLYTO_TEXT" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsDeliveryTime</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_DELIVERY_TIME" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsRedeliveryLimit</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_REDELIVERY_LIMIT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>jmsDeliveryCount</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="JMS_DELIVERY_COUNT" xsi:type="column"/>
+               <attribute-classification>java.math.BigDecimal</attribute-classification>
+            </attribute-mapping>
+            <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>userDefinedProperties</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="USER_DEFINED_PROPERTIES" xsi:type="column"/>
+               <attribute-classification>java.lang.String</attribute-classification>
+            </attribute-mapping>
+              <attribute-mapping xsi:type="direct-mapping">
+               <attribute-name>payloadText</attribute-name>
+               <field table="MIDDLEWARE_COMMON_ERROR" name="PAYLOAD_TEXT" xsi:type="column"/>
+               <attribute-classification>[B</attribute-classification>
+            </attribute-mapping>
+         </attribute-mappings>
+         <descriptor-type>independent</descriptor-type>
+         <caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+            <always-refresh>true</always-refresh>
+         </caching>
+         <remote-caching>
+            <cache-type>weak-reference</cache-type>
+            <cache-size>-1</cache-size>
+         </remote-caching>
+         <instantiation/>
+         <copying xsi:type="instantiation-copy-policy"/>
+         <tables>
+            <table name="!!osb.db.cs.schema!!.MIDDLEWARE_COMMON_ERROR"/>
+         </tables>
+         <structure>structureName</structure>
+      </class-mapping-descriptor>
+   </class-mapping-descriptors>
+   <login xsi:type="database-login">
+      <platform-class>org.eclipse.persistence.platform.database.oracle.Oracle9Platform</platform-class>
+      <user-name></user-name>
+      <connection-url></connection-url>
+   </login>
+</object-persistence>

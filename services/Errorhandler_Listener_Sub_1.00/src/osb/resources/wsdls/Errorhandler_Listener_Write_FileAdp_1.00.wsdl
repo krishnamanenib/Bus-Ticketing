@@ -1,0 +1,20 @@
+<wsdl:definitions name="Errorhandler_Listener_Write_FileAdp_1.00" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Listener_Service_File_Writer/Error_Listener_Service_File_Writer/Errorhandler_Listener_Write_FileAdp_1_00" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Listener_Service_File_Writer/Error_Listener_Service_File_Writer/Errorhandler_Listener_Write_FileAdp_1_00" xmlns:imp1="http://www.Nike.GeneralError/XmlSchema" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+  <plt:partnerLinkType name="Write_plt">
+    <plt:role name="Write_role">
+      <plt:portType name="tns:Write_ptt"/>
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/Error_Listener_Service_File_Writer/Error_Listener_Service_File_Writer/Errorhandler_Listener_Write_FileAdp_1_00" xmlns="http://www.w3.org/2001/XMLSchema">
+        <import namespace="http://www.Nike.GeneralError/XmlSchema" schemaLocation="../schemas/Errorhandler_Listener_XSD_1.00.xsd"/>
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="Write_msg">
+        <wsdl:part name="body" element="imp1:ErrorProcessing"/>
+    </wsdl:message>
+    <wsdl:portType name="Write_ptt">
+        <wsdl:operation name="Write">
+            <wsdl:input message="tns:Write_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

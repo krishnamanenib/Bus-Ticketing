@@ -1,0 +1,12 @@
+<adapter-config name="Errorhandler_Processor_SynchRead_FileAdp_1_00" adapter="File Adapter" wsdlLocation="../wsdls/Errorhandler_Processor_SynchRead_FileAdp_1.00.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/FileAdapter"/>
+  <endpoint-interaction portType="SynchRead_ptt" operation="SynchRead">
+    <interaction-spec className="oracle.tip.adapter.file.outbound.FileReadInteractionSpec">
+      <property name="DeleteFile" value="true"/>
+      <property name="PhysicalDirectory" value="!!osb.file.datadir!!/logistics/errorzone/reprocess"/>
+      <property name="FileName" value="test.txt"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

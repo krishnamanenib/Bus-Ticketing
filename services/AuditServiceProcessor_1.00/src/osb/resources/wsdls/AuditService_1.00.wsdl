@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WL5G3N0:definitions name="AuditService" targetNamespace="http://www.nike.com/AuditService/" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://www.nike.com/AuditService/" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xsd:schema targetNamespace="http://www.nike.com/AuditService/" xmlns:nke="http://www.nike.com/AuditService/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="AuditServiceRequest" type="nke:AuditServiceRequestType"/>
+      <xsd:complexType name="AuditServiceRequestType">
+        <xsd:sequence>
+        	<xsd:element maxOccurs="1" minOccurs="1" name="Platform"
+        		type="xsd:string" />
+        	<xsd:element maxOccurs="1" minOccurs="1" name="ServiceName"
+        		type="xsd:string" />
+        	<xsd:element maxOccurs="1" minOccurs="1" name="ServiceId"
+        		type="xsd:string" />
+        	<xsd:element maxOccurs="1" minOccurs="1"
+        		name="TransactionId" type="xsd:string">
+        	</xsd:element>
+        	<xsd:element maxOccurs="1" minOccurs="0" name="BusinessKey"
+        		type="xsd:string" />
+                    <xsd:element name="SystemId" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+                    <xsd:element maxOccurs="1" minOccurs="0"
+        		name="RecievedRecordsCount" type="xsd:string">
+        	</xsd:element>
+        	<xsd:element maxOccurs="1" minOccurs="0"
+        		name="ErrorRecordsCount" type="xsd:string">
+        	</xsd:element>
+        	<xsd:element maxOccurs="1" minOccurs="0"
+        		name="ProcessStartTimeStamp" type="xsd:string">
+        	</xsd:element>
+        	<xsd:element maxOccurs="1" minOccurs="0" name="InstanceId"
+        		type="xsd:string" />
+        	<xsd:element maxOccurs="1" minOccurs="1" name="Domain"
+        		type="xsd:string" />
+        	<xsd:element maxOccurs="1" minOccurs="0" name="FileName"
+        		type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="AuditServiceRequest">
+    <WL5G3N0:part element="WL5G3N1:AuditServiceRequest" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="AuditService">
+    <WL5G3N0:operation name="audit">
+      <WL5G3N0:input message="WL5G3N1:AuditServiceRequest"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="AuditServiceSOAP" type="WL5G3N1:AuditService">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="audit">
+      <WL5G3N2:operation soapAction="http://www.nike.com/AuditService/audit"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body use="literal"/>
+      </WL5G3N0:input>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="AuditService">
+    <WL5G3N0:port binding="WL5G3N1:AuditServiceSOAP" name="AuditServiceSOAP">
+      <WL5G3N2:address location="http://!!osb.http.loadbalancer!!/AuditService_1.00"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

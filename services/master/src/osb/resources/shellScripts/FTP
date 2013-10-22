@@ -1,0 +1,13 @@
+#!/bin/ksh
+#######################################################################################
+# Date - 04/02/2009 
+# Author - Jo Creyf 
+# Decsription - Wrapper script arround the java FTP application. 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# 
+#######################################################################################
+FTP_TOOL_DIR=/int2/scripts/tools/sudobin/devadm/ftp
+
+export torun='sudo -u devadm ${FTP_TOOL_DIR}/FTP "$@"'
+eval $torun
+

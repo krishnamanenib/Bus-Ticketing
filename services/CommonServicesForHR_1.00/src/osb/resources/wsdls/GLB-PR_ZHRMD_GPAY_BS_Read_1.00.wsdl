@@ -1,0 +1,20 @@
+<definitions targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/file/HRMS_Adapters/CommonServicesForHR_1.00/GLB_PR_ZHRMD_GPAY_File_Adp_Read_1_00" name="GLB-PR_ZHRMD_GPAY_File_Adp_Read_1.00-concrete" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/file/HRMS_Adapters/CommonServicesForHR_1.00/GLB_PR_ZHRMD_GPAY_File_Adp_Read_1_00" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/HRMS_Adapters/CommonServicesForHR_1.00/GLB_PR_ZHRMD_GPAY_File_Adp_Read_1_00" location="GLB-PR_ZHRMD_GPAY_File_Adp_Read_1.00.wsdl"/>
+  <binding name="synchReadFile_ptt-binding" type="tns:synchReadFile_ptt">
+    <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+    <operation name="synchReadFile">
+      <soap:operation soapAction="synchReadFile"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="GLB-PR_ZHRMD_GPAY_File_Adp_Read_1.00-service">
+    <port name="GLB-PR_ZHRMD_GPAY_File_Adp_Read_1.00-port" binding="tns:synchReadFile_ptt-binding">
+      <soap:address location="jca://eis/FileAdapter"/>
+    </port>
+  </service>
+</definitions>

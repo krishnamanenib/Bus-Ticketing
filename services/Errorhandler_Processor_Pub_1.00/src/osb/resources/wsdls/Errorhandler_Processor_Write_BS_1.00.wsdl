@@ -1,0 +1,17 @@
+<definitions targetNamespace="http://schemas.xmlsoap.org/soap/envelope/" name="Errorhandler_Processor_Write_FileAdp_1.00-concrete" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <import namespace="http://schemas.xmlsoap.org/soap/envelope/" location="Errorhandler_Processor_Write_FileAdp_1.00.wsdl"/>
+  <binding name="Write_ptt-binding" type="tns:Write_ptt">
+    <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+    <operation name="Write">
+      <soap:operation soapAction="Write"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+  </binding>
+  <service name="Errorhandler_Processor_Write_FileAdp_1.00-service">
+    <port name="Errorhandler_Processor_Write_FileAdp_1.00-port" binding="tns:Write_ptt-binding">
+      <soap:address location="jca://eis/FileAdapter"/>
+    </port>
+  </service>
+</definitions>

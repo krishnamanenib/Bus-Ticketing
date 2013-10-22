@@ -1,0 +1,20 @@
+<?binding.jca CommonserviceAuditProcConfigDB1_1.00_db.jca?><wsdl:definitions name="CommonserviceAuditProcConfigDB1_1.00" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/Conf_auditing/Audit_proj/CommonserviceAuditProcConfigDB1_1_00" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/Conf_auditing/Audit_proj/CommonserviceAuditProcConfigDB1_1_00" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/CommonserviceAuditProcConfigDB1_1/00">
+    <plt:partnerLinkType name="CommonserviceAuditProcConfigDB1_1.00_plt">
+        <plt:role name="CommonserviceAuditProcConfigDB1_1.00_role">
+            <plt:portType name="tns:CommonserviceAuditProcConfigDB1_1.00_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/CommonserviceAuditProcConfigDB1_1/00" schemaLocation="../schemas/CommonserviceAuditProcDBAdp_1.00.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="MiddlewareCommonAuditCollection_msg">
+        <wsdl:part name="MiddlewareCommonAuditCollection" element="top:MiddlewareCommonAuditCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="CommonserviceAuditProcConfigDB1_1.00_ptt">
+        <wsdl:operation name="insertAuditData">
+            <wsdl:input message="tns:MiddlewareCommonAuditCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

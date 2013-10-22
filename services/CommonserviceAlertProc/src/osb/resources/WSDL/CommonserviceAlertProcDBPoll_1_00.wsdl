@@ -1,0 +1,20 @@
+<?binding.jca CommonserviceAlertProcDBPoll_1.00_db.jca?><wsdl:definitions name="CommonserviceAlertProcDBPoll_1.00" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceLogProcFileRollOver_1.00/Project1/CommonserviceAlertProcDBPoll_1_00" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/CommonserviceLogProcFileRollOver_1.00/Project1/CommonserviceAlertProcDBPoll_1_00" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/CommonserviceAlertProcDBPoll_1/00">
+    <plt:partnerLinkType name="CommonserviceAlertProcDBPoll_1.00_plt">
+        <plt:role name="CommonserviceAlertProcDBPoll_1.00_role">
+            <plt:portType name="tns:CommonserviceAlertProcDBPoll_1.00_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/CommonserviceAlertProcDBPoll_1/00" schemaLocation="../schema/CommonserviceAlertProcDBPoll_1_00_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="MiddlewareCommonAlertCollection_msg">
+        <wsdl:part name="MiddlewareCommonAlertCollection" element="top:MiddlewareCommonAlertCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="CommonserviceAlertProcDBPoll_1.00_ptt">
+        <wsdl:operation name="receive">
+            <wsdl:input message="tns:MiddlewareCommonAlertCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

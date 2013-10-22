@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/publish/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ser:coreEntry isProxy="true" isEnabled="true">
+    <ser:binding type="abstract XML"/>
+    <ser:monitoring isEnabled="false">
+      <ser:aggregationInterval>10</ser:aggregationInterval>
+      <ser:pipelineMonitoringLevel>Pipeline</ser:pipelineMonitoringLevel>
+    </ser:monitoring>
+    <ser:reporting>true</ser:reporting>
+    <ser:logging isEnabled="true">
+      <ser:logLevel>debug</ser:logLevel>
+    </ser:logging>
+    <ser:sla-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:sla-alerting>
+    <ser:pipeline-alerting isEnabled="true">
+      <ser:alertLevel>normal</ser:alertLevel>
+    </ser:pipeline-alerting>
+  </ser:coreEntry>
+  <ser:endpointConfig>
+    <tran:provider-id>http</tran:provider-id>
+    <tran:inbound>true</tran:inbound>
+    <tran:URI>
+      <env:value>/AuditServiceClient/src/osb/proxyServices/AuditServiceClient</env:value>
+    </tran:URI>
+    <tran:inbound-properties/>
+    <tran:all-headers>false</tran:all-headers>
+    <tran:provider-specific>
+      <http:inbound-properties/>
+    </tran:provider-specific>
+  </ser:endpointConfig>
+  <ser:router>
+    <con:pipeline type="request" name="PipelinePairNode1_request">
+      <con:stage name="stage1">
+        <con:context/>
+        <con:actions>
+          <con1:assign varName="AuditLogInput">
+            <con2:id>_ActionId-2099614547660632126-66bf6a5f.12fb87f52bb.-7cd3</con2:id>
+            <con1:expr>
+              <con2:xqueryTransform>
+                <con2:resource ref="AuditServiceClient/src/osb/resources/xqueries/AuditServiceClientInput_XQ_1.00"/>
+                <con2:param name="RecievedRecordsCount">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="InstanceId">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="BusinessKey">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="FileName">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="TransactionId">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="ProcessStartTimeStamp">
+                  <con2:path>fn:current-dateTime()</con2:path>
+                </con2:param>
+                <con2:param name="ServiceId">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="Domain">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="ServiceName">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="Platform">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="ErrorRecordsCount">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+                <con2:param name="SystemId">
+                  <con2:path>'11111'</con2:path>
+                </con2:param>
+              </con2:xqueryTransform>
+            </con1:expr>
+          </con1:assign>
+          <con1:replace varName="body" contents-only="true">
+            <con2:id>_ActionId-2099614547660632126-66bf6a5f.12fb87f52bb.-7cb0</con2:id>
+            <con1:location>
+              <con2:xpathText>.</con2:xpathText>
+            </con1:location>
+            <con1:expr>
+              <con2:xqueryText>$AuditLogInput</con2:xqueryText>
+            </con1:expr>
+          </con1:replace>
+          <con3:route>
+            <con2:id>_ActionId-2099614547660632126-66bf6a5f.12fb87f52bb.-7c99</con2:id>
+            <con3:service ref="AuditServiceClient/src/osb/businessServices/AuditServiceClient_BS_1.00" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+            <con3:operation>audit</con3:operation>
+            <con3:outboundTransform/>
+          </con3:route>
+        </con:actions>
+      </con:stage>
+    </con:pipeline>
+    <con:pipeline type="response" name="PipelinePairNode1_response"/>
+    <con:flow>
+      <con:pipeline-node name="PipelinePairNode1">
+        <con:request>PipelinePairNode1_request</con:request>
+        <con:response>PipelinePairNode1_response</con:response>
+      </con:pipeline-node>
+    </con:flow>
+  </ser:router>
+</xml-fragment>

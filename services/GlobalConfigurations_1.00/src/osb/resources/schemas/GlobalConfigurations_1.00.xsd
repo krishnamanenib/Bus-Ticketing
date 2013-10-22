@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.nike.com/GlobalConfigurations_1.00/"
+	xmlns:tns="http://www.nike.com/GlobalConfigurations_1.00/" elementFormDefault="qualified">
+
+	<element name="GlobalConfigurations" type="tns:GlobalConfigurationsType"></element>
+
+	<complexType name="GlobalConfigurationsType">
+		<sequence>
+			<element name="service" type="tns:ServiceType" maxOccurs="unbounded"
+				minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="ServiceType">
+		<sequence>
+			<element name="field" type="tns:FieldType" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+		</sequence>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="id" type="string" use="required"></attribute>
+	</complexType>
+
+
+	<complexType name="FieldType">
+		<sequence>
+			<element name="key" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element name="value" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+
+</schema>

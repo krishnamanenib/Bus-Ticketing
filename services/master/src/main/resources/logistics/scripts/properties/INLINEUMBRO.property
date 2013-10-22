@@ -1,0 +1,7 @@
+SrcFilePath=${DATA_DIR}/deliver/Invoice/in
+TgtFilePath=${DATA_DIR}/deliver/Invoice/out
+StgFilePath=${DATA_DIR}/deliver/Invoice/stage
+FilePattern=INLINEUMBRO
+MsgLimit=0
+MsgHdr=TH
+Interface=I003

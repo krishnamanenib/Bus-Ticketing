@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<xs:schema xmlns="http://www.generalError.org" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.Nike.GeneralError/XmlSchema"
+	targetNamespace="http://www.Nike.GeneralError/XmlSchema"
+	elementFormDefault="qualified">
+	<xs:element name="ErrorProcessing">
+		<xs:annotation>
+			<xs:documentation>
+				Root node of the Error schema. This is the container of the error
+				information.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Platform" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							The name of the Platform for which the logging is
+							performed.Ex: Fusion or Informatica
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Link_ID" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Its a unique identifier. Link Id is used to get the complete
+							information about the link
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Source" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Source of the message.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SourceType" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Source type of the message. Ex: MQ or File or JMS
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+
+				<xs:element name="ServiceName" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Name of the service or component which generated the error
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ServiceId" type="xs:string" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Nike ID of the service
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DataArea" type="xs:string" nillable="false"
+					minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>
+							Type of data. Delivery Notes or ASN etc.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSDestination" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSDeliveryMode" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSMessageID" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSTimestamp" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSCorrelationID" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSReplyTo" type="xs:string" nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSRedelivered" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSType" type="xs:string" nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSMessagePriority" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSMessageExpiration" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JMSMessageType" type="xs:string"
+					nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							JMS properties. Captured from header properties.
+                        </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="UserDefinedProperties" nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							User Defined Service specific properties. Used for re-trigger the
+							job.
+                        </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="UserDefinedProperty" minOccurs="0"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name" type="xs:string" minOccurs="1" />
+										<xs:element name="Value" type="xs:string"
+											minOccurs="1" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MessagePayload" nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							Message payload
+                        </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MessagePayload" minOccurs="0"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:any />
+
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
