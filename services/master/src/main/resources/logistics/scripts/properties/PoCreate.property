@@ -1,7 +1,0 @@
-SrcFilePath=${DATA_DIR}/deliver/IPMatchingPO/in
-TgtFilePath=${DATA_DIR}/deliver/IPMatchingPO/out
-StgFilePath=${DATA_DIR}/deliver/IPMatchingPO/stage
-FilePattern=PoCreate
-MsgLimit=0
-MsgHdr=|1|
-Interface=I002

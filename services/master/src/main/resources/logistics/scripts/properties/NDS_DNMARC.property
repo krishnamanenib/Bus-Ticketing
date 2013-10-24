@@ -1,7 +1,0 @@
-SrcFilePath=${DATA_DIR}/deliver/ShiprequestBRD/in
-TgtFilePath=${DATA_DIR}/deliver/ShiprequestBRD/out
-StgFilePath=${DATA_DIR}/deliver/ShiprequestBRD/stage
-FilePattern=NDS_DNMARC
-MsgLimit=1000
-MsgHdr=ORDH
-Interface=I004

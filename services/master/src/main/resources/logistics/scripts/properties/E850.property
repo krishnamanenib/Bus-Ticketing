@@ -1,7 +1,0 @@
-SrcFilePath=${DATA_DIR}/deliver/ShiprequestMenlo/in
-TgtFilePath=${DATA_DIR}/deliver/ShiprequestMenlo/out
-StgFilePath=${DATA_DIR}/deliver/ShiprequestMenlo/stage
-FilePattern=E850
-MsgLimit=0
-MsgHdr=H1
-Interface=I005

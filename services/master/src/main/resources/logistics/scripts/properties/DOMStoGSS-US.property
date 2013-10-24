@@ -1,7 +1,0 @@
-SrcFilePath=${DATA_DIR}/deliver/EntReturn/in
-TgtFilePath=${DATA_DIR}/deliver/EntReturn/out
-StgFilePath=${DATA_DIR}/deliver/EntReturn/stage
-FilePattern=DOMSToGSS-US
-MsgLimit=0
-MsgHdr=<Order>
-Interface=I001
